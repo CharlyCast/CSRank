@@ -1,2 +1,2 @@
 # CSRank
-Page Rank algorithme for École Polytechnique local network
+Page Rank algorithm for École Polytechnique local network
