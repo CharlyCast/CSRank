@@ -7,11 +7,14 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
 public class Bot extends Thread {
     Document doc;
     HashSet<String> pages = new HashSet<>();
+    LinkedList<String> pageLinks = new LinkedList<>();
 
     public Bot() {
 
@@ -19,11 +22,17 @@ public class Bot extends Thread {
 
     @Override
     public void run() {
-        this.explore("http://www.polytechnique.edu/");
+        String nextPage = "http://www.polytechnique.edu/";
+        for (int i = 0; i < 10; i++) {
+            nextPage=this.explore(nextPage);
+        }
     }
 
-    void explore(String url) {
+    String explore(String url) {
+        String nextPage = "";
+
         try {
+            System.out.println("URL : " + url);
             doc = Jsoup.connect(url).get();
 
             // get page title
@@ -33,28 +42,36 @@ public class Bot extends Thread {
             // get all links
             Elements links = doc.select("a[href]");
 
-            int c = 0;
+            int nbOfLinks = 0;
 
             String l;
 
             for (Element link : links) {
 
-                // get the value from href attribute
-//                System.out.println("\nlink : " + link.attr("href"));
-//                System.out.println("text : " + link.text());
-
                 l = link.attr("href");
                 if (Pattern.matches("http.+polytechnique.*", l)) {
-                    pages.add(l);
-                    System.out.println("Matches");
-                    c++;
+                    pageLinks.add(l);
+//                    System.out.println("Matches");
+                    nbOfLinks++;
                 }
             }
 
-            System.out.println(c + " valid links");
+            System.out.println(nbOfLinks + " valid links");
+
+            int index = ThreadLocalRandom.current().nextInt(0, pageLinks.size());
+            int i = 0;
+
+            for (String link : pageLinks) {
+                pages.add(link);
+                if (i == index) {
+                    nextPage = link;
+                }
+                i++;
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return nextPage;
     }
 }
