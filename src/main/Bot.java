@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.Console;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -23,7 +24,7 @@ public class Bot extends Thread {
     @Override
     public void run() {
         String nextPage = "http://www.polytechnique.edu/";
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             nextPage=this.explore(nextPage);
         }
     }
@@ -56,7 +57,7 @@ public class Bot extends Thread {
                 }
             }
 
-            System.out.println(nbOfLinks + " valid links");
+            System.out.println(nbOfLinks + " valid links\n");
 
             int index = ThreadLocalRandom.current().nextInt(0, pageLinks.size());
             int i = 0;
@@ -71,6 +72,7 @@ public class Bot extends Thread {
 
         } catch (IOException e) {
             e.printStackTrace();
+            return "http://www.polytechnique.edu/";
         }
         return nextPage;
     }
