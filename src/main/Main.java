@@ -10,35 +10,11 @@ import org.jsoup.select.Elements;
 
 
 public class Main {
-    public Main() {
-
-    }
 
     public static void main(String[] args) {
-        Document doc;
-        try {
+        Bot bot = new Bot();
 
-            // need http protocol
-//            doc = Jsoup.connect("http://google.com").get();
-            doc = Jsoup.connect("http://www.polytechnique.edu/").get();
-
-            // get page title
-            String title = doc.title();
-            System.out.println("title : " + title);
-
-            // get all links
-            Elements links = doc.select("a[href]");
-            for (Element link : links) {
-
-                // get the value from href attribute
-                System.out.println("\nlink : " + link.attr("href"));
-                System.out.println("text : " + link.text());
-
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        bot.start();
     }
 
 }
