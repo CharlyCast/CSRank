@@ -13,32 +13,44 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
 public class Bot extends Thread {
+	Graphe web;
     Document doc;
     HashSet<String> pages = new HashSet<>();
     LinkedList<String> pageLinks = new LinkedList<>();
 
-    public Bot() {
-
+    public Bot(Graphe g) {
+    	web =g;
     }
 
     @Override
     public void run() {
-        String nextPage = "http://www.polytechnique.edu/";
+        //String nextPage = "http://www.polytechnique.edu/";
+    	Page nextPage;
+        Page currentPage=new Page("http://www.polytechnique.edu/");
         for (int i = 0; i < 100; i++) {
-            nextPage=this.explore(nextPage);
+        	
+            nextPage=this.explore(currentPage);
+            currentPage.add_neighbor(nextPage);
+            nextPage.visit();
+            if (!web.contains(nextPage)) {
+        		web.add_vertex(nextPage);
+        	}
+            currentPage=nextPage;
         }
     }
 
-    String explore(String url) {
-        String nextPage = "";
+    Page explore(Page p) {
+        Page nextPage;
 
         try {
-            System.out.println("URL : " + url);
-            doc = Jsoup.connect(url).get();
+            //System.out.println("URL : " + p.getUrl());
+            doc = Jsoup.connect(p.get_url()).get();
 
             // get page title
             String title = doc.title();
-            System.out.println("title : " + title);
+            p.set_title(title);
+           // System.out.println("title : " + title);
+
 
             // get all links
             Elements links = doc.select("a[href]");
@@ -57,22 +69,24 @@ public class Bot extends Thread {
                 }
             }
 
-            System.out.println(nbOfLinks + " valid links\n");
+          //  System.out.println(nbOfLinks + " valid links\n");
 
             int index = ThreadLocalRandom.current().nextInt(0, pageLinks.size());
             int i = 0;
-
+            
+            String nexturl="";
             for (String link : pageLinks) {
                 pages.add(link);
                 if (i == index) {
-                    nextPage = link;
+                    nexturl= link;
                 }
                 i++;
             }
+            nextPage=new Page(nexturl);
 
         } catch (IOException e) {
             e.printStackTrace();
-            return "http://www.polytechnique.edu/";
+            return new Page("http://www.polytechnique.edu/");
         }
         return nextPage;
     }
