@@ -32,9 +32,6 @@ public class Bot extends Thread {
             nextPage=this.explore(currentPage);
             currentPage.add_neighbor(nextPage);
             nextPage.visit();
-            if (!web.contains(nextPage)) {
-        		web.add_vertex(nextPage);
-        	}
             currentPage=nextPage;
         }
     }
@@ -82,7 +79,14 @@ public class Bot extends Thread {
                 }
                 i++;
             }
-            nextPage=new Page(nexturl);
+            if (web.contains(nexturl)) {
+            	nextPage=web.get_page(nexturl);
+            }
+            else {
+            	nextPage=new Page(nexturl);
+            	web.add_vertex(nextPage);
+            }
+            
 
         } catch (IOException e) {
             e.printStackTrace();
