@@ -24,9 +24,9 @@ public class Bot extends Thread {
 
     @Override
     public void run() {
-        //String nextPage = "http://www.polytechnique.edu/";
+    	Page currentPage=web.get_page("http://www.polytechnique.edu/");
     	Page nextPage;
-        Page currentPage=new Page("http://www.polytechnique.edu/");
+    	
         for (int i = 0; i < 100; i++) {
         	
             nextPage=this.explore(currentPage);
@@ -40,33 +40,22 @@ public class Bot extends Thread {
         Page nextPage;
 
         try {
-            //System.out.println("URL : " + p.getUrl());
             doc = Jsoup.connect(p.get_url()).get();
 
             // get page title
             String title = doc.title();
             p.set_title(title);
-           // System.out.println("title : " + title);
-
 
             // get all links
             Elements links = doc.select("a[href]");
 
-            int nbOfLinks = 0;
-
             String l;
-
             for (Element link : links) {
-
                 l = link.attr("href");
                 if (Pattern.matches("http.+polytechnique.*", l)) {
                     pageLinks.add(l);
-//                    System.out.println("Matches");
-                    nbOfLinks++;
                 }
             }
-
-          //  System.out.println(nbOfLinks + " valid links\n");
 
             int index = ThreadLocalRandom.current().nextInt(0, pageLinks.size());
             int i = 0;
@@ -79,14 +68,8 @@ public class Bot extends Thread {
                 }
                 i++;
             }
-            if (web.contains(nexturl)) {
-            	nextPage=web.get_page(nexturl);
-            }
-            else {
-            	nextPage=new Page(nexturl);
-            	web.add_vertex(nextPage);
-            }
             
+            nextPage=web.get_page(nexturl);
 
         } catch (IOException e) {
             e.printStackTrace();

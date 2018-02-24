@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.io.IOException;
 
 import org.jsoup.*;
@@ -7,7 +8,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
+import org.graphstream.graph.*;
+import org.graphstream.graph.implementations.*;
+import org.graphstream.ui.spriteManager.Sprite;
+import org.graphstream.ui.spriteManager.SpriteManager;
 
 public class Main {
 
@@ -21,10 +25,9 @@ public class Main {
         for (int i=0;i<8;i++) {
         	bot[i].join();
         }
-        for (Page p : web.get_vertices()) {
-        	System.out.println(p.get_url());
-        	System.out.println(p.get_nbVisits());
-        }
+        
+        Visualization v=new Visualization(web);
+        v.display();
     }
 
 }

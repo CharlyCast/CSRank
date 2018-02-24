@@ -33,10 +33,17 @@ public class Graphe {
 			lock.unlock();
 		}
 	}
-	public Page get_page(String url) {
+	public Page get_page(String url) { //if the page is not contained, it is created.
 		lock.lock();
 		try {
-			return map.get(url);
+			if (map.containsKey(url)){
+				return map.get(url);
+			}
+			else {
+				Page p = new Page(url);
+				add_vertex(p);
+				return p;
+			}
 		}
 		finally {
 			lock.unlock();
@@ -54,5 +61,11 @@ public class Graphe {
 	}
 	public ArrayList<Page> get_vertices(){
 		return vertices;
+	}
+	public void lock() {
+		lock.lock();
+	}
+	public void unlock() {
+		lock.unlock();
 	}
 }

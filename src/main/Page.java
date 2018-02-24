@@ -33,7 +33,9 @@ public class Page {
 	public void add_neighbor(Page p) {
 		lock.lock();
 		try {
-			outNeighbors.add(p);
+			if (!outNeighbors.contains(p)) {
+				outNeighbors.add(p);
+			}	
 		}
 		finally {
 			lock.unlock();
@@ -56,6 +58,9 @@ public class Page {
 		finally {
 			lock.unlock();
 		}
+	}
+	public ArrayList<Page> get_neighbors(){
+		return this.outNeighbors;
 	}
 	
 	@Override
