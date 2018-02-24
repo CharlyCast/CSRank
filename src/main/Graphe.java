@@ -33,7 +33,7 @@ public class Graphe {
 			lock.unlock();
 		}
 	}
-	public Page get_page(String url) { //if the page is not contained, it is created.
+	public Page get_page(String url) { //if the page is not contained in the Graphe, it is created and added to the Graphe.
 		lock.lock();
 		try {
 			if (map.containsKey(url)){

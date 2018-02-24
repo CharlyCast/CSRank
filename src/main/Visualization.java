@@ -16,6 +16,7 @@ public class Visualization {
 		for (Page p: web.get_vertices()) {
 			Node n= graph.addNode(p.get_url());
 			n.addAttribute("ui.style", "fill-color:blue;size: "+Float.toString((float)(p.get_nbVisits())/ (float)(nbVisits)*1000)+"px;"); // The size of a node is proportional to its number of visits
+			n.addAttribute("layout.weight", p.get_nbVisits()); // The important pages are more "repulsive" (ie, they are more distant from one another in the display)
 			if ((float)(p.get_nbVisits())/ (float)(nbVisits) >0.02) { // Only display the title of major pages
 				n.addAttribute("ui.label", p.get_title().substring(0, Math.min(p.get_title().length(), 20)));
 			}
