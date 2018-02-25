@@ -2,6 +2,7 @@ package main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Concurrent_WebGraph{
@@ -9,6 +10,9 @@ public class Concurrent_WebGraph{
 	private ReentrantLock lock;
 	private HashMap<String,Page> map;
 	private int nbVisitsTotal;
+
+    static Random rd = new Random();
+
 	public Concurrent_WebGraph() {
 		nodes= new ArrayList<Page>();
 		lock= new ReentrantLock();
@@ -21,8 +25,8 @@ public class Concurrent_WebGraph{
 		Page pDest = getPage(destination);
 		pDest.visit();
 		pOrigin.add_neighbor(pDest);
-		
 	}
+
 	public void setTitle(String url, String title) {
 		Page p=getPage(url);
 		p.setTitle(title);
@@ -46,11 +50,18 @@ public class Concurrent_WebGraph{
 			lock.unlock();
 		}
 	}
+
 	public ArrayList<Page> getNodes(){
 		return nodes;
 	}
 	public int getNbVisitsTotal() {
 		return nbVisitsTotal;
 	}
+
+    public String getRandomUrl() {
+//        Return a random url
+
+        return nodes.get(Math.abs(rd.nextInt()) % nodes.size()).get_url();
+    }
 
 }

@@ -5,16 +5,16 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.Console;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
 public class Bot extends Thread {
-    static String baseUrl="http://www.polytechnique.edu/";
-    static String regex="http.+polytechnique.*";
+    static double alpha=0.85;// at each iteration the bot will jump to a random page with a probability of 1-alpha
+
+//    static String baseUrl="http://www.polytechnique.edu/";
+//    static String regex="http.+polytechnique.*";
 
 //    static String baseUrl="http://www.lemonde.fr/";
 //    static String regex="http.+lemonde.*";
@@ -22,16 +22,17 @@ public class Bot extends Thread {
 //    static String baseUrl="https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal";
 //    static String regex="http.+wikipedia.*";
 
-//    static String baseUrl="https://www.youtube.com/";
-//    static String regex="http.+youtube.*";
+    static String baseUrl="https://www.youtube.com/";
+    static String regex="http.+youtube.*";
 
 //    static String baseUrl="https://docs.oracle.com/javase/8/docs/api/overview-summary.html";
 //    static String regex="http.+docs.oracle.com.*";
 
+//    static String baseUrl="http://mythicspoiler.com/";
+//    static String regex="http.+mythic.*";
 
 	Concurrent_WebGraph web;
     Document doc;
-    HashSet<String> pages = new HashSet<>();
     LinkedList<String> pageLinks = new LinkedList<>();
 
     public Bot(Concurrent_WebGraph g) {
@@ -53,6 +54,10 @@ public class Bot extends Thread {
 
     String explore(String url) {
     	String nextUrl="";
+        pageLinks = new LinkedList<>();
+
+//        System.out.println(this.getName() + "\nExploring : "+url);
+
         try {
             doc = Jsoup.connect(url).get();
 
@@ -71,23 +76,26 @@ public class Bot extends Thread {
                 }
             }
 
-            System.out.println(pageLinks.size());
+            int index = ThreadLocalRandom.current().nextInt(-1, pageLinks.size());
 
-            int index = ThreadLocalRandom.current().nextInt(0, pageLinks.size());
-            int i = 0;
-
-            for (String link : pageLinks) {
-                pages.add(link);
-                if (i == index) {
-                    nextUrl= link;
-                }
-                i++;
+            if (index==-1){
+                nextUrl=web.getRandomUrl();
             }
+            else {
+                int i = 0;
 
+                for (String link : pageLinks) {
+//                pages.add(link);
+                    if (i == index) {
+                        nextUrl= link;
+                    }
+                    i++;
+                }
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
-            return baseUrl;
+            return web.getRandomUrl();
         }
         return nextUrl;
     }
