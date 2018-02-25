@@ -50,7 +50,7 @@ public class Bot extends Thread {
             String l;
             for (Element link : links) {
                 l = link.attr("href");
-                if (Pattern.matches("http.+polytechnique.*", l)) {
+                if (Pattern.matches("http.+polytechnique.*", l)) { 
                     pageLinks.add(l);
                 }
             }
