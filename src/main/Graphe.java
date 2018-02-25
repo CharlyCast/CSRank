@@ -3,14 +3,20 @@ package main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantLock;
-
+/*
+!!!WARNING !!!
+!!!WARNING !!!
+THIS CLASS IS NOT USED ANYMORE
+IT IS REPLACED BY Concurrent_WebGraph
+IT WILL BE DELETED SOON
+ */
 public class Graphe {
-	private ArrayList<Page> vertices;
+	private ArrayList<Page> nodes;
 	private ReentrantLock lock;
 	private HashMap<String,Page> map;
 	
 	public Graphe() {
-		vertices= new ArrayList<Page>();
+		nodes= new ArrayList<Page>();
 		lock= new ReentrantLock();
 		map=new HashMap<String,Page>();
 	}
@@ -18,7 +24,7 @@ public class Graphe {
 	public boolean contains(Page p) {
 		lock.lock();
 		try {
-			return vertices.contains(p);
+			return nodes.contains(p);
 		}
 		finally {
 			lock.unlock();
@@ -33,7 +39,7 @@ public class Graphe {
 			lock.unlock();
 		}
 	}
-	public Page get_page(String url) { //if the page is not contained in the Graphe, it is created and added to the Graphe.
+	public Page getNode(String url) { //if the page is not contained in the Graphe, it is created and added to the Graphe.
 		lock.lock();
 		try {
 			if (map.containsKey(url)){
@@ -41,7 +47,7 @@ public class Graphe {
 			}
 			else {
 				Page p = new Page(url);
-				add_vertex(p);
+				addNode(p);
 				return p;
 			}
 		}
@@ -49,18 +55,18 @@ public class Graphe {
 			lock.unlock();
 		}
 	}
-	public void add_vertex(Page p) {
+	public void addNode(Page p) {
 		lock.lock();
 		try {
-			vertices.add(p);
+			nodes.add(p);
 			map.put(p.get_url(), p);
 		}
 		finally {
 			lock.unlock();
 		}
 	}
-	public ArrayList<Page> get_vertices(){
-		return vertices;
+	public ArrayList<Page> getNodes(){
+		return nodes;
 	}
 	public void lock() {
 		lock.lock();

@@ -13,38 +13,36 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
 public class Bot extends Thread {
-	Graphe web;
+	Concurrent_WebGraph web;
     Document doc;
     HashSet<String> pages = new HashSet<>();
     LinkedList<String> pageLinks = new LinkedList<>();
 
-    public Bot(Graphe g) {
+    public Bot(Concurrent_WebGraph g) {
     	web =g;
     }
 
     @Override
     public void run() {
-    	Page currentPage=web.get_page("http://www.polytechnique.edu/");
-    	Page nextPage;
+    	String currentPage="http://www.polytechnique.edu/";
+    	String nextPage;
     	
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 300; i++) {
         	
             nextPage=this.explore(currentPage);
-            currentPage.add_neighbor(nextPage);
-            nextPage.visit();
+            web.visit(currentPage, nextPage);
             currentPage=nextPage;
         }
     }
 
-    Page explore(Page p) {
-        Page nextPage;
-
+    String explore(String url) {
+    	String nextUrl="";
         try {
-            doc = Jsoup.connect(p.get_url()).get();
+            doc = Jsoup.connect(url).get();
 
             // get page title
             String title = doc.title();
-            p.set_title(title);
+            web.setTitle(url, title);
 
             // get all links
             Elements links = doc.select("a[href]");
@@ -60,21 +58,19 @@ public class Bot extends Thread {
             int index = ThreadLocalRandom.current().nextInt(0, pageLinks.size());
             int i = 0;
             
-            String nexturl="";
             for (String link : pageLinks) {
                 pages.add(link);
                 if (i == index) {
-                    nexturl= link;
+                    nextUrl= link;
                 }
                 i++;
             }
             
-            nextPage=web.get_page(nexturl);
 
         } catch (IOException e) {
             e.printStackTrace();
-            return new Page("http://www.polytechnique.edu/");
+            return "http://www.polytechnique.edu/";
         }
-        return nextPage;
+        return nextUrl;
     }
 }

@@ -16,7 +16,8 @@ import org.graphstream.ui.spriteManager.SpriteManager;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-    	Graphe web=new Graphe();
+    	Concurrent_WebGraph web=new Concurrent_WebGraph();
+    	//Graphe_gs web2=new Graphe_gs("test");
         Bot[] bot = new Bot[8];
         for (int i=0;i<8;i++) {
         	bot[i]=new Bot(web);
@@ -26,8 +27,9 @@ public class Main {
         	bot[i].join();
         }
         
-        Visualization v=new Visualization(web);
-        v.display();
+        //Visualization v=new Visualization(web);
+       // v.display();
+        
     }
 
 }

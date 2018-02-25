@@ -30,21 +30,23 @@ public class Page {
 		}
 	}
 	
-	public void add_neighbor(Page p) {
+	public boolean add_neighbor(Page p) {
 		lock.lock();
 		try {
 			if (!outNeighbors.contains(p)) {
 				outNeighbors.add(p);
-			}	
+				return true;
+			}
+			return false;
 		}
 		finally {
 			lock.unlock();
 		}
 	}
-	public void set_title(String t) {
+	public void setTitle(String t) {
 		title=t;
 	}
-	public String get_title() {
+	public String getTitle() {
 		return title;
 	}
 	public String get_url() {
