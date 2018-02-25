@@ -13,8 +13,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
 public class Bot extends Thread {
-//    static String baseUrl="http://www.polytechnique.edu/";
-//    static String regex="http.+polytechnique.*";
+    static String baseUrl="http://www.polytechnique.edu/";
+    static String regex="http.+polytechnique.*";
 
 //    static String baseUrl="http://www.lemonde.fr/";
 //    static String regex="http.+lemonde.*";
@@ -25,8 +25,8 @@ public class Bot extends Thread {
 //    static String baseUrl="https://www.youtube.com/";
 //    static String regex="http.+youtube.*";
 
-    static String baseUrl="https://docs.oracle.com/javase/8/docs/api/overview-summary.html";
-    static String regex="http.+docs.oracle.com.*";
+//    static String baseUrl="https://docs.oracle.com/javase/8/docs/api/overview-summary.html";
+//    static String regex="http.+docs.oracle.com.*";
 
 
 	Concurrent_WebGraph web;
@@ -40,7 +40,7 @@ public class Bot extends Thread {
 
     @Override
     public void run() {
-    	String currentPage="http://www.polytechnique.edu/";
+    	String currentPage=baseUrl;
     	String nextPage;
     	
         for (int i = 0; i < 300; i++) {
@@ -70,6 +70,8 @@ public class Bot extends Thread {
                     pageLinks.add(l);
                 }
             }
+
+            System.out.println(pageLinks.size());
 
             int index = ThreadLocalRandom.current().nextInt(0, pageLinks.size());
             int i = 0;
