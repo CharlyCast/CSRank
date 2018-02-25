@@ -61,6 +61,9 @@ public class Page {
 			lock.unlock();
 		}
 	}
+	public int get_nbVisits_unsafe() {
+		return nbVisits;
+	}
 	public ArrayList<Page> get_neighbors(){
 		return this.outNeighbors;
 	}

@@ -23,6 +23,8 @@ public class Main {
         	bot[i]=new Bot(web);
         	bot[i].start();
         }
+        Displayer disp= new Displayer(web);
+        disp.start();
         for (int i=0;i<8;i++) {
         	bot[i].join();
         }
