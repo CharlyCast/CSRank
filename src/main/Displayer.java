@@ -40,7 +40,7 @@ public class Displayer extends Thread {
 				e1.printStackTrace();
 			}
 			nbVisitsTotal=web.getNbVisitsTotal();
-			pages= (ArrayList<Page>)(web.getNodes()).clone();
+			pages= (ArrayList<Page>)(web.getpages()).clone();
 			for (Page p : pages) {
 				nbVisits=p.get_nbVisits_unsafe();
 				if (links.containsKey(p)) {

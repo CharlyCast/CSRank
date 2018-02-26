@@ -12,22 +12,22 @@ import org.jsoup.select.Elements;
 public class Explorer extends Thread{
 	Concurrent_WebGraph web;
 	Concurrent_FIFO_Queue queue;
-	int nbPagesToExplore;
 	Page currentPage;
 	Document doc;
 	String regex;
 	
-	public Explorer(Concurrent_WebGraph web, Concurrent_FIFO_Queue queue, String regex,int nb) {
+	public Explorer(Concurrent_WebGraph web, Concurrent_FIFO_Queue queue, String regex) {
 		this.web=web;
 		this.queue=queue;
 		this.regex=regex;
-		nbPagesToExplore=nb;
 	}
 	public void run(){
-		for (int i=0;i<nbPagesToExplore;i++) {
+		while(!queue.isEmpty()) {
 			currentPage=queue.poll();
-			System.out.println(currentPage.get_url());
-			explore(currentPage);
+			if (currentPage!=null) {
+				explore(currentPage);
+			}
+			
 		}
 	}
 	public void explore(Page currentPage) {
@@ -43,12 +43,14 @@ public class Explorer extends Thread{
 	     String l;
 	     for (Element link : links) {
 	         l = link.attr("href");
+	         
 	         if (Pattern.matches(regex, l)) {
 	        	 Page p=new Page(l);
 	             queue.add(p); // p will actually be added to queue only if it had never been visited
 	             currentPage.add_neighbor(p);
 	             web.addPage(p);
 	         }
+	         
 	     }
 	}
 }

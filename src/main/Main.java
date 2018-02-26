@@ -38,30 +38,22 @@ public class Main {
         }*/
         
         //Exploration du graphe
-        Explorer[] explo = new Explorer[nbBot];
-        
-        for (int i = 0; i < nbBot; i++) {
-            explo[i] = new Explorer(web,queue,regex,nbExplorationsPerBot);
-            explo[i].start();
-        }
-
-        for (int i = 0; i < nbBot; i++) {
-            explo[i].join();
-        }
+        ExplorationManager em=new ExplorationManager(queue,web,regex);
+        em.startExploration(nbBot, 3);
         
         Displayer disp = new Displayer(web);
         disp.start();
         
         // Détermination du PageRank.
-        RandomWalker[] walkers = new RandomWalker[nbBot];
+       /* RandomWalker[] walkers = new RandomWalker[nbBot];
         for (int i = 0; i < nbBot; i++) {
-            walkers[i] = new RandomWalker(web,nbExplorationsPerBot*5);
+            walkers[i] = new RandomWalker(web,nbExplorationsPerBot);
             walkers[i].start();
         }
 
         for (int i = 0; i < nbBot; i++) {
             walkers[i].join();
-        }
+        }*/
         
         
 
