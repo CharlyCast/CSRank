@@ -76,7 +76,7 @@ public class Bot extends Thread {
 
         // get page title
         String title = doc.title();
-        web.setTitle(url, title);
+        web.getPage(url).setTitle(title);
 
         // get all links
         Elements links = doc.select("a[href]");
