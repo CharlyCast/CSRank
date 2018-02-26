@@ -16,8 +16,8 @@ public class Bot extends Thread {
 //    static String baseUrl="http://www.polytechnique.edu/";
 //    static String regex="http.+polytechnique.*";
 
-    static String baseUrl = "http://www.lemonde.fr/";
-    static String regex = "http.+lemonde.*";
+ //   static String baseUrl = "http://www.lemonde.fr/";
+   // static String regex = "http.+lemonde.*";
 
 //    static String baseUrl="https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal";
 //    static String regex="http.+wikipedia.*";
@@ -28,8 +28,8 @@ public class Bot extends Thread {
 //    static String baseUrl="https://docs.oracle.com/javase/8/docs/api/overview-summary.html";
 //    static String regex="http.+docs.oracle.com.*";
 
-//    static String baseUrl="http://mythicspoiler.com/";
-//    static String regex="http.+mythic.*";
+    static String baseUrl="http://mythicspoiler.com/";
+    static String regex="http.+mythic.*";
 
     Concurrent_WebGraph web;
     Document doc;
@@ -47,7 +47,9 @@ public class Bot extends Thread {
         for (int i = 0; i < 300; i++) {
 
             nextPage = this.explore(currentPage);
-            web.visit(currentPage, nextPage);
+            if (!nextPage.equals("")&& !currentPage.equals("")) {
+            	web.visit(currentPage, nextPage);
+            }  
             currentPage = nextPage;
         }
     }

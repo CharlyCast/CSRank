@@ -34,7 +34,7 @@ public class Displayer extends Thread {
 		ArrayList<Page> neighbors;
 		while(true) {
 			try {
-				Thread.sleep(30);
+				Thread.sleep(50);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
