@@ -45,15 +45,15 @@ public class Main {
         disp.start();
         
         // Détermination du PageRank.
-       /* RandomWalker[] walkers = new RandomWalker[nbBot];
+        RandomWalker[] walkers = new RandomWalker[nbBot];
         for (int i = 0; i < nbBot; i++) {
-            walkers[i] = new RandomWalker(web,nbExplorationsPerBot);
+            walkers[i] = new RandomWalker(web,nbExplorationsPerBot*5);
             walkers[i].start();
         }
 
         for (int i = 0; i < nbBot; i++) {
             walkers[i].join();
-        }*/
+        }
         
         
 

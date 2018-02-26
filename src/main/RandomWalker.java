@@ -22,7 +22,14 @@ public class RandomWalker extends Thread{
 	}
 	public Page explore(Page currentPage) {
 		ArrayList<Page> neighbors = currentPage.get_neighbors();
-		Page nextPage = neighbors.get(Math.abs(rd.nextInt()) % neighbors.size());
+		Page nextPage;
+		if (neighbors.size()>0) {
+			nextPage = neighbors.get(Math.abs(rd.nextInt()) % neighbors.size());
+		}
+		else {
+			nextPage=web.getRandomPage(rd);
+		}
+		
 		nextPage.visit();
 		web.incrVisits();
 		return nextPage;
