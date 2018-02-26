@@ -33,11 +33,13 @@ public class Explorer extends Thread{
 	public void explore(Page currentPage) {
 		try {
 			doc = Jsoup.connect(currentPage.get_url()).get();
+			String title = doc.title();
+			currentPage.setTitle(title);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		 String title = doc.title();
-	     currentPage.setTitle(title);
+		
+		 
 	     Elements links = doc.select("a[href]");
 
 	     String l;

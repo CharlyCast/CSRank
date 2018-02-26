@@ -12,14 +12,11 @@ public class Concurrent_FIFO_Queue {
 	LinkedList<Page> nextQueue;
 	HashSet<Page> alreadyVisited;
 	
-	public Concurrent_FIFO_Queue(String firstUrl) {
+	public Concurrent_FIFO_Queue() {
 		lock= new ReentrantLock();
 		currentQueue=new LinkedList<Page>();
 		nextQueue=new LinkedList<Page>();
-		alreadyVisited=new HashSet<Page>();
-		Page firstPage=new Page(firstUrl);
-		currentQueue.add(firstPage);
-		
+		alreadyVisited=new HashSet<Page>();	
 	}
 	
 	public void add(Page p) {

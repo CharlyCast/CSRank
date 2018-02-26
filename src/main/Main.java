@@ -24,7 +24,6 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
         Concurrent_WebGraph web = new Concurrent_WebGraph();
-        Concurrent_FIFO_Queue queue= new Concurrent_FIFO_Queue(baseUrl);
         /*Bot[] bot = new Bot[nbBot];
         for (int i = 0; i < nbBot; i++) {
             bot[i] = new Bot(web);
@@ -36,21 +35,19 @@ public class Main {
         for (int i = 0; i < nbBot; i++) {
             bot[i].join();
         }*/
-        
-        //Exploration du graphe
-        ExplorationManager em=new ExplorationManager(queue,web,regex);
-        em.startExploration(nbBot, 3);
-        
         Displayer disp = new Displayer(web);
         disp.start();
+        //Exploration du graphe
+        ExplorationManager em=new ExplorationManager(web,baseUrl,regex);
+        em.startExploration(nbBot, 2);
+        
         
         // Détermination du PageRank.
         RandomWalker[] walkers = new RandomWalker[nbBot];
         for (int i = 0; i < nbBot; i++) {
-            walkers[i] = new RandomWalker(web,nbExplorationsPerBot*5);
+            walkers[i] = new RandomWalker(web,nbExplorationsPerBot);
             walkers[i].start();
         }
-
         for (int i = 0; i < nbBot; i++) {
             walkers[i].join();
         }

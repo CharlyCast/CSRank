@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="D:/Users/Etienne/Documents/Info/CSRank/bin/jsoup-1.8.1.jar"/>
 	<classpathentry kind="lib" path="D:/Users/Etienne/Documents/Info/CSRank/bin/gs-core-1.3.jar"/>
+	<classpathentry kind="lib" path="D:/Users/Etienne/Documents/Info/CSRank/bin/gs-ui-1.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

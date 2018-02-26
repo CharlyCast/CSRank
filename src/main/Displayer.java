@@ -36,7 +36,6 @@ public class Displayer extends Thread {
 			try {
 				Thread.sleep(30);
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			nbVisitsTotal=web.getNbVisitsTotal();
@@ -49,8 +48,8 @@ public class Displayer extends Thread {
 				else {
 					links.put(p, new HashSet<Page>());
 					n=graph_gs.addNode(p.get_url());
-					n.addAttribute("ui.style", "size:"+ ((float)(nbVisits)/(float)(nbVisitsTotal)*1000)+"px;fill-color:blue;");
-					n.addAttribute("layout.weight", (float)(nbVisits)/(float)(nbVisitsTotal)*10);
+					n.addAttribute("ui.style", "size:"+ ((float)(nbVisits)/(float)(nbVisitsTotal)*10000)+"px;fill-color:blue;");
+					n.addAttribute("layout.weight", (float)(nbVisits)/(float)(nbVisitsTotal));
 				}
 				
 				n.addAttribute("ui.style", "size:"+ ((float)(nbVisits)/(float)(nbVisitsTotal)*100)+"px;fill-color:blue;");

@@ -6,10 +6,14 @@ public class ExplorationManager {
 	String regex;
 
 	
-	public ExplorationManager(Concurrent_FIFO_Queue queue, Concurrent_WebGraph web, String regex) {
-		this.queue=queue;
+	public ExplorationManager(Concurrent_WebGraph web, String firstUrl,String regex) {
+		this.queue=new Concurrent_FIFO_Queue();
 		this.web=web;
 		this.regex=regex;
+		Page firstPage=new Page(firstUrl);
+		queue.add(firstPage);
+		web.addPage(firstPage);
+		queue.switchQueue();
 	}
 	
 	public void startExploration(int nbExplorers, int nbSteps) throws InterruptedException {
