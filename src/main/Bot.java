@@ -16,8 +16,8 @@ public class Bot extends Thread {
 //    static String baseUrl="http://www.polytechnique.edu/";
 //    static String regex="http.+polytechnique.*";
 
- //   static String baseUrl = "http://www.lemonde.fr/";
-   // static String regex = "http.+lemonde.*";
+//    static String baseUrl = "http://www.lemonde.fr/";
+//    static String regex = "http.+lemonde.*";
 
 //    static String baseUrl="https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal";
 //    static String regex="http.+wikipedia.*";
@@ -49,7 +49,7 @@ public class Bot extends Thread {
             nextPage = this.explore(currentPage);
             if (!nextPage.equals("")&& !currentPage.equals("")) {
             	web.visit(currentPage, nextPage);
-            }  
+            }
             currentPage = nextPage;
         }
     }
