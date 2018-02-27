@@ -85,11 +85,11 @@ public class Page {
         return url.hashCode();
     }
 
-    public double getCSRank() {
+    public double get_CSRank() {
         return CSRank;
     }
 
-    public void setCSRank(double CSRank) {
+    public void set_CSRank(double CSRank) {
         this.CSRank = CSRank;
     }
 }

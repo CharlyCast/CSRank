@@ -2,7 +2,7 @@ package main;
 
 public class Main {
     static int nbBot = 4;
-    static int nbExplorationsPerBot = 200;
+    static int nbExplorationsPerBot = 100000;
 //    static String baseUrl="http://mythicspoiler.com/";
 //    static String regex="http.+mythic.*";
 
@@ -42,7 +42,7 @@ public class Main {
         //Exploration du graphe
         tExploration=System.nanoTime();
         ExplorationManager em = new ExplorationManager(web, baseUrl, regex);
-        em.startExploration(nbBot, 4);
+        em.startExploration(nbBot, 3);
         tExploration=(System.nanoTime()-tExploration)/ 1000000000;
 
 
