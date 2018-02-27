@@ -11,6 +11,7 @@ public class Page {
     //private HashMap<String,Page> outNeighbors;
     private ArrayList<Page> outNeighbors;
     private ReentrantLock lock;
+    private double CSRank;
 
     public Page(String url) {
         this.url = url;
@@ -84,5 +85,11 @@ public class Page {
         return url.hashCode();
     }
 
+    public double getCSRank() {
+        return CSRank;
+    }
 
+    public void setCSRank(double CSRank) {
+        this.CSRank = CSRank;
+    }
 }

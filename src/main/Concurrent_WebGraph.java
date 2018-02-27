@@ -86,5 +86,10 @@ public class Concurrent_WebGraph {
         return pages.get(Math.abs(rand.nextInt()) % pages.size());
     }
 
+    public void computeCSRank (){
+        for (Page p: pages){
+            p.setCSRank((nbVisitsTotal+1)/(p.get_nbVisits_unsafe()+1));
+        }
+    }
 
 }
