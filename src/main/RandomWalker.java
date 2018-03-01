@@ -3,21 +3,22 @@ package main;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class RandomWalker extends Thread{
+public class RandomWalker implements Runnable{
     static double alpha=0.85;
 	Concurrent_WebGraph web;
-	int nbSteps;
+	Page startPage;
+	
 	Random rd;
 
-	public RandomWalker(Concurrent_WebGraph web, int nb) {
+	public RandomWalker(Concurrent_WebGraph web, Page p) {
 		this.web=web;
-		nbSteps=nb;
+		startPage=p;
 		rd=new Random();
 	}
 
 	public void run() {
-		Page page=web.getRandomPage(rd);
-		for(int i=0;i<nbSteps;i++) {
+		Page page=startPage;
+		while(page!=null) {
 			page=explore(page);
 		}
 	}
@@ -26,19 +27,18 @@ public class RandomWalker extends Thread{
 		ArrayList<Page> neighbors = currentPage.get_neighbors();
 		Page nextPage;
 		if (Math.abs(rd.nextDouble())%1>alpha){
-            nextPage=web.getRandomPage(rd);
+			nextPage=null;
         }
         else{
             if (neighbors.size()>0) {
                 nextPage = neighbors.get(Math.abs(rd.nextInt()) % neighbors.size());
+                nextPage.visit();
+        		web.incrVisits();
             }
             else {
-                nextPage=web.getRandomPage(rd);
+            	nextPage=null;
             }
         }
-
-		nextPage.visit();
-		web.incrVisits();
 		return nextPage;
 	}
 }

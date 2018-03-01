@@ -1,8 +1,13 @@
 package main;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 public class Main {
     static int nbBot = 4;
     static int nbExplorationsPerBot = 100000;
+    static int nbCores = Runtime.getRuntime().availableProcessors();
 //    static String baseUrl="http://mythicspoiler.com/";
 //    static String regex="http.+mythic.*";
 
@@ -36,8 +41,8 @@ public class Main {
             bot[i].join();
         }*/
 
-//        Displayer disp = new Displayer(web);
-//        disp.start();
+        Displayer disp = new Displayer(web);
+        disp.start();
 
         //Exploration du graphe
         tExploration=System.nanoTime();
@@ -48,15 +53,27 @@ public class Main {
 
         // Détermination du PageRank.
         tWalkers=System.nanoTime();
-        RandomWalker[] walkers = new RandomWalker[nbBot];
+        ExecutorService exec = Executors.newFixedThreadPool(nbCores);
+        int n=web.getpages().size();
+        int K= (int) (Math.log((double) n)) *1000;
+        for (int i=0;i<K;i++) {
+        	for (int j=0;j<n;j++) {
+        		exec.execute(new RandomWalker(web,web.getpages().get(j)));
+        	}
+        }
+        exec.shutdown();
+        exec.awaitTermination(10000, TimeUnit.MILLISECONDS);
+        tWalkers=(System.nanoTime()-tWalkers)/ 1000000000;
+        
+        
+        /*RandomWalker[] walkers = new RandomWalker[nbBot];
         for (int i = 0; i < nbBot; i++) {
             walkers[i] = new RandomWalker(web, nbExplorationsPerBot);
             walkers[i].start();
         }
         for (int i = 0; i < nbBot; i++) {
             walkers[i].join();
-        }
-        tWalkers=(System.nanoTime()-tWalkers)/ 1000000000;
+        }*/
 
 
         //Computing CSRank
@@ -70,8 +87,8 @@ public class Main {
         +"\nSpending:\n"
         +tExploration+" s in exploration\n"
         +tWalkers+" s in random walks\n"
-        +tCSComputation+" s in CS Rank computation\n"
-        );
+        +tCSComputation+" s in CS Rank computation\n");
+        
 
     }
 
