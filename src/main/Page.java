@@ -2,12 +2,13 @@ package main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Page {
     private final String url;
     private String title;
-    private int nbVisits;
+    private AtomicInteger nbVisits;
     //private HashMap<String,Page> outNeighbors;
     private ArrayList<Page> outNeighbors;
     private ReentrantLock lock;
@@ -17,16 +18,14 @@ public class Page {
         this.url = url;
         this.title = "";
         lock = new ReentrantLock();
-        nbVisits = 0;
+        nbVisits = new AtomicInteger(0);
         outNeighbors = new ArrayList<Page>();
     }
 
     public void visit() {
-        lock.lock();
-        try {
-            nbVisits += 1;
-        } finally {
-            lock.unlock();
+        int nb=nbVisits.get();
+        while (!nbVisits.compareAndSet(nb, nb+1)){
+        	nb=nbVisits.get();
         }
     }
 
@@ -58,14 +57,14 @@ public class Page {
     public int get_nbVisits() {
         lock.lock();
         try {
-            return nbVisits;
+            return nbVisits.get();
         } finally {
             lock.unlock();
         }
     }
 
     public int get_nbVisits_unsafe() {
-        return nbVisits;
+        return nbVisits.get();
     }
 
     public ArrayList<Page> get_neighbors() {

@@ -17,7 +17,7 @@ public class Main {
 //    static String baseUrl="http://www.centralesupelec.fr/";
 //    static String regex = "http.+centralesupelec.*";
 
-    static String baseUrl="https://www.insa-lyon.fr/";
+    static String baseUrl="https://www.insa-lyon.fr";
     static String regex = "http.+insa-lyon.*";
 
 
@@ -88,6 +88,7 @@ public class Main {
         +tExploration+" s in exploration\n"
         +tWalkers+" s in random walks\n"
         +tCSComputation+" s in CS Rank computation\n");
+        
         
 
     }

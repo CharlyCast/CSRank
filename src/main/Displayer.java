@@ -48,15 +48,18 @@ public class Displayer extends Thread {
 				else {
 					links.put(p, new HashSet<Page>());
 					n=graph_gs.addNode(p.get_url());
-					n.addAttribute("ui.style", "size:"+ ((float)(nbVisits)/(float)(nbVisitsTotal)*10000)+"px;fill-color:blue;");
-					n.addAttribute("layout.weight", (float)(nbVisits)/(float)(nbVisitsTotal));
 				}
-				
-				n.addAttribute("ui.style", "size:"+ ((float)(nbVisits)/(float)(nbVisitsTotal)*100)+"px;fill-color:blue;");
-				n.addAttribute("layout.weight", (float)(nbVisits)/(float)(nbVisitsTotal)*10);
-				if ((float)(nbVisits)/(float)(nbVisitsTotal)>0.02 && nbVisits>10) {
-					n.addAttribute("ui.label", p.getTitle().substring(0, Math.min(p.getTitle().length(), 25)));
+				float csrank= (float)(nbVisits)/(float)(nbVisitsTotal);
+				n.addAttribute("ui.style", "size:"+ (csrank*10000)+"px;fill-color:blue;");
+				n.addAttribute("layout.weight", csrank*1000);
+				if (csrank>0.002f && nbVisits>10) {
+					n.addAttribute("ui.label", p.get_url().substring(0, Math.min(p.get_url().length(), 45)));
+					//n.addAttribute("ui.label", p.getTitle().substring(0, Math.min(p.getTitle().length(), 25)));
 				}
+				/*else{
+					System.out.println(p.get_url());
+					System.out.println(p.get_nbVisits_unsafe());
+				}*/
 				
 				neighbors=(ArrayList<Page>)(p.get_neighbors()).clone();
 				for (Page neighbor : neighbors) {

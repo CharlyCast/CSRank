@@ -3,13 +3,14 @@ package main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Concurrent_WebGraph {
     private ArrayList<Page> pages;
     private ReentrantLock lock;
     private HashMap<String, Page> map;
-    private int nbVisitsTotal;
+    private AtomicInteger nbVisitsTotal;
     private ReentrantLock visitsLock; // protects the access to nbVisitsTotal
 
     static Random rd = new Random();
@@ -18,7 +19,7 @@ public class Concurrent_WebGraph {
         pages = new ArrayList<Page>();
         lock = new ReentrantLock();
         map = new HashMap<String, Page>();
-        nbVisitsTotal = 1;
+        nbVisitsTotal = new AtomicInteger(1);
         visitsLock = new ReentrantLock();
     }
 
@@ -38,7 +39,7 @@ public class Concurrent_WebGraph {
                 Page p = new Page(url);
                 pages.add(p);
                 map.put(url, p);
-                nbVisitsTotal += 1;
+               // nbVisitsTotal += 1;
                 return p;
             }
         } finally {
@@ -64,15 +65,13 @@ public class Concurrent_WebGraph {
     }
 
     public int getNbVisitsTotal() {
-        return nbVisitsTotal;
+        return nbVisitsTotal.get();
     }
 
     public void incrVisits() {
-        visitsLock.lock();
-        try {
-            nbVisitsTotal += 1;
-        } finally {
-            visitsLock.unlock();
+        int nb=nbVisitsTotal.get();
+        while (!nbVisitsTotal.compareAndSet(nb,nb+1)){
+        	nb=nbVisitsTotal.get();
         }
     }
 
@@ -88,7 +87,7 @@ public class Concurrent_WebGraph {
 
     public void computeCSRank (){
         for (Page p: pages){
-            p.set_CSRank((double)p.get_nbVisits_unsafe()/nbVisitsTotal);
+            p.set_CSRank((double)p.get_nbVisits_unsafe()/(double)nbVisitsTotal.get());
             System.out.println(p.get_CSRank() +" CS for "+ p.get_url());
         }
     }
