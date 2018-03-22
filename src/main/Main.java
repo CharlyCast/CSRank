@@ -89,7 +89,7 @@ public class Main {
 
         System.out.println("Done in " + t + " s"
         +"\nSpending:\n"
-        +tExploration/10+" s in exploration\n"
+        +tExploration+" s in exploration\n"
         +tWalkers/10+" s in random walks\n"
         +tCSComputation+" s in CS Rank computation\n");
         System.out.println("Exploration speed: " + web.getpages().size()/tExploration + "pages/s.");
