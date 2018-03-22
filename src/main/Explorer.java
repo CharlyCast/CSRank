@@ -56,7 +56,5 @@ public class Explorer extends Thread {
         } catch (IOException e) {
             //e.printStackTrace();
         }
-
-        
     }
 }
