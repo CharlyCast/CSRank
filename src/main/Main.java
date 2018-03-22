@@ -23,25 +23,33 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-        long t = System.nanoTime();
+        firstAlgorithm();
+        //secondAlgorithm();
+
+    }
+    
+    public static void firstAlgorithm() throws InterruptedException{
+    	Concurrent_WebGraph web = new Concurrent_WebGraph();
+        Bot[] bot = new Bot[nbBot];
+        for (int i = 0; i < nbBot; i++) {
+            bot[i] = new Bot(web,baseUrl,regex);
+            bot[i].start();
+        }
+
+        Displayer disp = new Displayer(web,1);
+        disp.start();
+        for (int i = 0; i < nbBot; i++) {
+            bot[i].join();
+    }
+    }
+    public static void secondAlgorithm() throws InterruptedException{
+    	Concurrent_WebGraph web = new Concurrent_WebGraph();
+    	long t = System.nanoTime();
         long tExploration;
         long tWalkers;
         long tCSComputation;
 
-        Concurrent_WebGraph web = new Concurrent_WebGraph();
-        /*Bot[] bot = new Bot[nbBot];
-        for (int i = 0; i < nbBot; i++) {
-            bot[i] = new Bot(web);
-            bot[i].start();
-        }
-
-        Displayer disp = new Displayer(web);
-        disp.start();
-        for (int i = 0; i < nbBot; i++) {
-            bot[i].join();
-        }*/
-
-        Displayer disp = new Displayer(web);
+        Displayer disp = new Displayer(web,1000);
         disp.start();
 
         //Exploration du graphe
@@ -65,15 +73,6 @@ public class Main {
         exec.awaitTermination(10000, TimeUnit.MILLISECONDS);
         tWalkers=(System.nanoTime()-tWalkers)/ 1000000000;
         
-        
-        /*RandomWalker[] walkers = new RandomWalker[nbBot];
-        for (int i = 0; i < nbBot; i++) {
-            walkers[i] = new RandomWalker(web, nbExplorationsPerBot);
-            walkers[i].start();
-        }
-        for (int i = 0; i < nbBot; i++) {
-            walkers[i].join();
-        }*/
 
 
         //Computing CSRank
@@ -88,9 +87,6 @@ public class Main {
         +tExploration+" s in exploration\n"
         +tWalkers+" s in random walks\n"
         +tCSComputation+" s in CS Rank computation\n");
-        
-        
-
     }
 
 }

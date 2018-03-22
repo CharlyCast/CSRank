@@ -15,12 +15,14 @@ public class Displayer extends Thread {
 	SingleGraph graph_gs;
 	//HashSet<Page> pages;
 	HashMap<Page,HashSet<Page>> links;
-	public Displayer(Concurrent_WebGraph w) {
+	int nodeSize;
+	public Displayer(Concurrent_WebGraph w, int size) {
 		web=w;
+		nodeSize=size;
 		graph_gs=new SingleGraph("graph");
 		//pages=new HashSet<Page>();
 		links=new HashMap<Page,HashSet<Page>>();
-		System.setProperty("gs.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		graph_gs.addAttribute("ui.antialias");
 		graph_gs.display();
 	}
@@ -50,8 +52,8 @@ public class Displayer extends Thread {
 					n=graph_gs.addNode(p.get_url());
 				}
 				float csrank= (float)(nbVisits)/(float)(nbVisitsTotal);
-				n.addAttribute("ui.style", "size:"+ (csrank*10000)+"px;fill-color:blue;");
-				n.addAttribute("layout.weight", csrank*1000);
+				n.addAttribute("ui.style", "size:"+ (csrank*nodeSize)+"px;fill-color:rgb(0,62,150);");
+				n.addAttribute("layout.weight", csrank*nodeSize);
 				if (csrank>0.002f && nbVisits>10) {
 					n.addAttribute("ui.label", p.get_url().substring(0, Math.min(p.get_url().length(), 45)));
 					//n.addAttribute("ui.label", p.getTitle().substring(0, Math.min(p.getTitle().length(), 25)));

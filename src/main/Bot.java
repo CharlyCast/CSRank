@@ -13,30 +13,17 @@ import java.util.regex.Pattern;
 public class Bot extends Thread {
     static double alpha = 0.85;// at each iteration the bot will jump to a random page with a probability of 1-alpha
 
-//    static String baseUrl="http://www.polytechnique.edu/";
-//    static String regex="http.+polytechnique.*";
-
-//    static String baseUrl = "http://www.lemonde.fr/";
-//    static String regex = "http.+lemonde.*";
-
-//    static String baseUrl="https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal";
-//    static String regex="http.+wikipedia.*";
-
-//    static String baseUrl="https://www.youtube.com/";
-//    static String regex="http.+youtube.*";
-
-//    static String baseUrl="https://docs.oracle.com/javase/8/docs/api/overview-summary.html";
-//    static String regex="http.+docs.oracle.com.*";
-
-    static String baseUrl="http://mythicspoiler.com/";
-    static String regex="http.+mythic.*";
+    String baseUrl;
+    String regex;
 
     Concurrent_WebGraph web;
     Document doc;
     LinkedList<String> pageLinks = new LinkedList<>();
 
-    public Bot(Concurrent_WebGraph g) {
+    public Bot(Concurrent_WebGraph g, String baseUrl, String regex) {
         web = g;
+        this.baseUrl=baseUrl;
+        this.regex=regex;
     }
 
     @Override
@@ -59,20 +46,14 @@ public class Bot extends Thread {
         pageLinks = new LinkedList<>();
 
         try {
-//            System.out.println(this.getName() + "   " + url);
 
 //            If the url is empty, we return a random url. Avoid some bugs
             if (url.equals("")) return web.getRandomUrl();
             doc = Jsoup.connect(url).get();
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             return web.getRandomUrl();
         }
-//        catch (IllegalArgumentException e) {
-//            System.out.println(url);
-//            e.printStackTrace();
-//            return web.getRandomUrl();
-//        }
 
         // get page title
         String title = doc.title();
