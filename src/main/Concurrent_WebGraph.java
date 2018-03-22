@@ -28,7 +28,7 @@ public class Concurrent_WebGraph {
         pOrigin.add_neighbor(pDest);
     }
 
-    public Page getPage(String url) {
+    public Page getPage(String url) { //add the page if it does not exist
         lock.lock();
         try {
             if (map.containsKey(url)) {
@@ -37,7 +37,6 @@ public class Concurrent_WebGraph {
                 Page p = new Page(url);
                 pages.add(p);
                 map.put(url, p);
-               // nbVisitsTotal += 1;
                 return p;
             }
         } finally {
@@ -85,7 +84,7 @@ public class Concurrent_WebGraph {
 
     public void computeCSRank (){
         for (Page p: pages){
-            p.set_CSRank((double)p.get_nbVisits_unsafe()/(double)nbVisitsTotal.get());
+            p.set_CSRank((double)p.get_nbVisits()/(double)nbVisitsTotal.get());
             System.out.println(p.get_CSRank() +" CS for "+ p.get_url());
         }
     }

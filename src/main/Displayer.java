@@ -13,14 +13,12 @@ import javafx.util.Pair;
 public class Displayer extends Thread {
 	Concurrent_WebGraph web;
 	SingleGraph graph_gs;
-	//HashSet<Page> pages;
 	HashMap<Page,HashSet<Page>> links;
 	int nodeSize;
 	public Displayer(Concurrent_WebGraph w, int size) {
 		web=w;
 		nodeSize=size;
 		graph_gs=new SingleGraph("graph");
-		//pages=new HashSet<Page>();
 		links=new HashMap<Page,HashSet<Page>>();
 		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		graph_gs.addAttribute("ui.antialias");
@@ -43,7 +41,7 @@ public class Displayer extends Thread {
 			nbVisitsTotal=web.getNbVisitsTotal();
 			pages= (ArrayList<Page>)(web.getpages()).clone();
 			for (Page p : pages) {
-				nbVisits=p.get_nbVisits_unsafe();
+				nbVisits=p.get_nbVisits();
 				if (links.containsKey(p)) {
 					n=graph_gs.getNode(p.get_url());
 				}
@@ -58,10 +56,6 @@ public class Displayer extends Thread {
 					n.addAttribute("ui.label", p.get_url().substring(0, Math.min(p.get_url().length(), 45)));
 					//n.addAttribute("ui.label", p.getTitle().substring(0, Math.min(p.getTitle().length(), 25)));
 				}
-				/*else{
-					System.out.println(p.get_url());
-					System.out.println(p.get_nbVisits_unsafe());
-				}*/
 				
 				neighbors=(ArrayList<Page>)(p.get_neighbors()).clone();
 				for (Page neighbor : neighbors) {
