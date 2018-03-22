@@ -11,7 +11,6 @@ public class Concurrent_WebGraph {
     private ReentrantLock lock;
     private HashMap<String, Page> map;
     private AtomicInteger nbVisitsTotal;
-    private ReentrantLock visitsLock; // protects the access to nbVisitsTotal
 
     static Random rd = new Random();
 
@@ -20,10 +19,9 @@ public class Concurrent_WebGraph {
         lock = new ReentrantLock();
         map = new HashMap<String, Page>();
         nbVisitsTotal = new AtomicInteger(1);
-        visitsLock = new ReentrantLock();
     }
 
-    public void visit(String origin, String destination) { // Not used anymore (by Explorers and RandomWalkers)
+    public void visit(String origin, String destination) { 
         Page pOrigin = getPage(origin);
         Page pDest = getPage(destination);
         pDest.visit();

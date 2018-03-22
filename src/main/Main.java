@@ -30,16 +30,16 @@ public class Main {
     
     public static void firstAlgorithm() throws InterruptedException{
     	Concurrent_WebGraph web = new Concurrent_WebGraph();
-        Bot[] bot = new Bot[nbBot];
+        Surfer[] surfers = new Surfer[nbBot];
         for (int i = 0; i < nbBot; i++) {
-            bot[i] = new Bot(web,baseUrl,regex);
-            bot[i].start();
+            surfers[i] = new Surfer(web,baseUrl,regex);
+            surfers[i].start();
         }
 
         Displayer disp = new Displayer(web,1);
         disp.start();
         for (int i = 0; i < nbBot; i++) {
-            bot[i].join();
+            surfers[i].join();
     }
     }
     public static void secondAlgorithm() throws InterruptedException{

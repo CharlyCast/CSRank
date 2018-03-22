@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
-public class Bot extends Thread {
+public class Surfer extends Thread {
     static double alpha = 0.85;// at each iteration the bot will jump to a random page with a probability of 1-alpha
 
     String baseUrl;
@@ -20,7 +20,7 @@ public class Bot extends Thread {
     Document doc;
     LinkedList<String> pageLinks = new LinkedList<>();
 
-    public Bot(Concurrent_WebGraph g, String baseUrl, String regex) {
+    public Surfer(Concurrent_WebGraph g, String baseUrl, String regex) {
         web = g;
         this.baseUrl=baseUrl;
         this.regex=regex;
