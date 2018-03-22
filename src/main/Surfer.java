@@ -15,15 +15,16 @@ public class Surfer extends Thread {
 
     String baseUrl;
     String regex;
-
+    int nbSteps;
     Concurrent_WebGraph web;
     Document doc;
     LinkedList<String> pageLinks = new LinkedList<>();
 
-    public Surfer(Concurrent_WebGraph g, String baseUrl, String regex) {
+    public Surfer(Concurrent_WebGraph g, String baseUrl, String regex, int nbSteps) {
         web = g;
         this.baseUrl=baseUrl;
         this.regex=regex;
+        this.nbSteps=nbSteps;
     }
 
     @Override
@@ -31,7 +32,7 @@ public class Surfer extends Thread {
         String currentPage = baseUrl;
         String nextPage;
 
-        for (int i = 0; i < 300; i++) {
+        for (int i = 0; i < nbSteps; i++) {
 
             nextPage = this.explore(currentPage);
             if (!nextPage.equals("")&& !currentPage.equals("")) {

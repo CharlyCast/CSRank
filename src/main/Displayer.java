@@ -52,9 +52,9 @@ public class Displayer extends Thread {
 				float csrank= (float)(nbVisits)/(float)(nbVisitsTotal);
 				n.addAttribute("ui.style", "size:"+ (csrank*nodeSize)+"px;fill-color:rgb(0,62,150);");
 				n.addAttribute("layout.weight", csrank*nodeSize);
-				if (csrank>0.02f) {
-					n.addAttribute("ui.label", p.get_url().substring(0, Math.min(p.get_url().length(), 45)));
-					//n.addAttribute("ui.label", p.getTitle().substring(0, Math.min(p.getTitle().length(), 25)));
+				if (csrank>0.5f/pages.size()) {
+					//n.addAttribute("ui.label", p.get_url().substring(0, Math.min(p.get_url().length(), 45)));
+					n.addAttribute("ui.label", p.getTitle().substring(0, Math.min(p.getTitle().length(), 25)));
 				}
 				else{
 					n.removeAttribute("ui.label");

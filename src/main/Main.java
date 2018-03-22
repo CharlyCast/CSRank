@@ -23,16 +23,17 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-        firstAlgorithm();
-        //secondAlgorithm();
+        //firstAlgorithm();
+        secondAlgorithm();
 
     }
     
     public static void firstAlgorithm() throws InterruptedException{
+    	long t = System.nanoTime();
     	Concurrent_WebGraph web = new Concurrent_WebGraph();
         Surfer[] surfers = new Surfer[nbBot];
         for (int i = 0; i < nbBot; i++) {
-            surfers[i] = new Surfer(web,baseUrl,regex);
+            surfers[i] = new Surfer(web,baseUrl,regex,50);
             surfers[i].start();
         }
 
@@ -40,7 +41,11 @@ public class Main {
         disp.start();
         for (int i = 0; i < nbBot; i++) {
             surfers[i].join();
-    }
+        }
+        t=(System.nanoTime()-t)/1000000000;
+        System.out.println("Explored "+web.getNbVisitsTotal()+ " pages in " + t + " seconds.");
+        System.out.println("Speed: "+ web.getNbVisitsTotal()/t +"pages/s.");
+        
     }
     public static void secondAlgorithm() throws InterruptedException{
     	Concurrent_WebGraph web = new Concurrent_WebGraph();
@@ -49,7 +54,7 @@ public class Main {
         long tWalkers;
         long tCSComputation;
 
-        Displayer disp = new Displayer(web,1000);
+        Displayer disp = new Displayer(web,7000);
         disp.start();
 
         //Exploration du graphe
@@ -71,7 +76,7 @@ public class Main {
         }
         exec.shutdown();
         exec.awaitTermination(10000, TimeUnit.MILLISECONDS);
-        tWalkers=(System.nanoTime()-tWalkers)/ 1000000000;
+        tWalkers=(System.nanoTime()-tWalkers)/ 100000000;
         
 
 
@@ -84,9 +89,11 @@ public class Main {
 
         System.out.println("Done in " + t + " s"
         +"\nSpending:\n"
-        +tExploration+" s in exploration\n"
-        +tWalkers+" s in random walks\n"
+        +tExploration/10+" s in exploration\n"
+        +tWalkers/10+" s in random walks\n"
         +tCSComputation+" s in CS Rank computation\n");
+        System.out.println("Exploration speed: " + web.getpages().size()/tExploration + "pages/s.");
+        System.out.println("Walkers speed: " + web.getNbVisitsTotal()*10/tWalkers + "pages/s.");
     }
 
 }
