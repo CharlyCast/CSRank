@@ -55,16 +55,7 @@ public class Page {
     }
 
     public int get_nbVisits() {
-        lock.lock();
-        try {
-            return nbVisits.get();
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    public int get_nbVisits_unsafe() {
-        return nbVisits.get();
+    	return nbVisits.get();
     }
 
     public ArrayList<Page> get_neighbors() {
