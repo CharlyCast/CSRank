@@ -36,6 +36,7 @@ public class Surfer extends Thread {
             nextPage = this.explore(currentPage);
             if (!nextPage.equals("")&& !currentPage.equals("")) {
             	web.visit(currentPage, nextPage);
+            	web.incrVisits();
             }
             currentPage = nextPage;
         }

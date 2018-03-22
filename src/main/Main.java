@@ -36,7 +36,7 @@ public class Main {
             surfers[i].start();
         }
 
-        Displayer disp = new Displayer(web,1);
+        Displayer disp = new Displayer(web,1000);
         disp.start();
         for (int i = 0; i < nbBot; i++) {
             surfers[i].join();
