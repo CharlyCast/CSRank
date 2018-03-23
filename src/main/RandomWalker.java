@@ -3,42 +3,42 @@ package main;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class RandomWalker implements Runnable{
-    static double alpha=0.85;
-	Concurrent_WebGraph web;
-	Page startPage;
-	
-	Random rd;
+public class RandomWalker implements Runnable {
+    static double alpha = 0.85;
+    Concurrent_WebGraph web;
+    Page startPage;
 
-	public RandomWalker(Concurrent_WebGraph web, Page p) {
-		this.web=web;
-		startPage=p;
-		rd=new Random();
-	}
+    Random rd;
 
-	public void run() {
-		Page page=startPage;
-		while(page!=null) {
-			page=explore(page);
-		}
-	}
+    public RandomWalker(Concurrent_WebGraph web, Page p) {
+        this.web = web;
+        startPage = p;
+        rd = new Random();
+    }
 
-	public Page explore(Page currentPage) {
-		ArrayList<Page> neighbors = currentPage.get_neighbors();
-		Page nextPage;
-		if (Math.abs(rd.nextDouble())%1>alpha){
-			nextPage=null;
+    public void run() {
+        Page page = startPage;
+        page.visit();
+        web.incrVisits();
+        while (page != null) {
+            page = explore(page);
         }
-        else{
-            if (neighbors.size()>0) {
+    }
+
+    public Page explore(Page currentPage) {
+        ArrayList<Page> neighbors = currentPage.get_neighbors();
+        Page nextPage;
+        if (Math.abs(rd.nextDouble()) % 1 > alpha) {
+            nextPage = null;
+        } else {
+            if (neighbors.size() > 0) {
                 nextPage = neighbors.get(Math.abs(rd.nextInt()) % neighbors.size());
                 nextPage.visit();
-        		web.incrVisits();
-            }
-            else {
-            	nextPage=null;
+                web.incrVisits();
+            } else {
+                nextPage = null;
             }
         }
-		return nextPage;
-	}
+        return nextPage;
+    }
 }
