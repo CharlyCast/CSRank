@@ -15,7 +15,8 @@ public class Displayer extends Thread {
 	SingleGraph graph_gs;
 	HashMap<Page,HashSet<Page>> links;
 	int nodeSize;
-	public Displayer(Concurrent_WebGraph w, int size) {
+	boolean real_time;
+	public Displayer(Concurrent_WebGraph w, int size,boolean real_time) {
 		web=w;
 		nodeSize=size;
 		graph_gs=new SingleGraph("graph");
@@ -23,6 +24,7 @@ public class Displayer extends Thread {
 		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		graph_gs.addAttribute("ui.antialias");
 		graph_gs.display();
+		this.real_time=real_time;
 	}
 	
 	@Override
@@ -32,9 +34,9 @@ public class Displayer extends Thread {
 		Node n;
 		ArrayList<Page> pages;
 		ArrayList<Page> neighbors;
-		while(true) {
+		do {
 			try {
-				Thread.sleep(30);
+				Thread.sleep(100);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
@@ -51,15 +53,24 @@ public class Displayer extends Thread {
 				}
 				float csrank= (float)(nbVisits)/(float)(nbVisitsTotal);
 				n.addAttribute("ui.style", "size:"+ (csrank*nodeSize)+"px;fill-color:rgb(0,62,150);");
-				n.addAttribute("layout.weight", csrank*nodeSize);
-				if (csrank>0.5f/pages.size()) {
+				if (real_time) {
+					n.addAttribute("layout.weight", csrank*nodeSize/100); //reduce the repulsion when displayed in real_time, because it's too shaky otherwise
+				}
+				else {
+					n.addAttribute("layout.weight", csrank*nodeSize);
+				}
+				
+				if (csrank>0.7f/pages.size()) {
 					//n.addAttribute("ui.label", p.get_url().substring(0, Math.min(p.get_url().length(), 45)));
 					n.addAttribute("ui.label", p.getTitle().substring(0, Math.min(p.getTitle().length(), 25)));
 				}
 				else{
 					n.removeAttribute("ui.label");
 				}
-				
+			}
+			for (Page p:pages) {
+				nbVisits=p.get_nbVisits();
+				float csrank= (float)(nbVisits)/(float)(nbVisitsTotal);
 				neighbors=(ArrayList<Page>)(p.get_neighbors()).clone();
 				for (Page neighbor : neighbors) {
 					if (links.containsKey(neighbor)){
@@ -74,11 +85,12 @@ public class Displayer extends Thread {
 							mean_csrank=0;
 						}
 						Edge e=graph_gs.getEdge(p.get_url()+neighbor.get_url());
-						e.addAttribute("ui.style", "size:"+ mean_csrank*nodeSize*0.05+"px;arrow-size:"+ mean_csrank*nodeSize*0.1+"px;");
+						e.addAttribute("ui.style", "size:"+ mean_csrank*nodeSize*0.01+"px;arrow-size:"+ mean_csrank*nodeSize*0.08+"px;");
 					}		
 				}
 				
 			}
-		}
+		}while (real_time);
+		
 	}
 }

@@ -13,8 +13,8 @@ public class Main {
 //    static String baseUrl="http://mythicspoiler.com/";
 //    static String regex="http.+mythic.*";
 
-    static String baseUrl = "https://www.polytechnique.edu/";
-    static String regex = "https://www.polytechnique.edu/.*";
+ //   static String baseUrl = "https://www.polytechnique.edu/";
+ //   static String regex = "https://www.polytechnique.edu/.*";
 
 //    static String baseUrl="http://www.centralesupelec.fr/";
 //    static String regex = "http.+centralesupelec.*";
@@ -22,13 +22,18 @@ public class Main {
 //    static String baseUrl="https://www.insa-lyon.fr";
 //    static String regex = "https://www.insa-lyon.fr.*";
 
-//    static String baseUrl = "http://www.enseignement.polytechnique.fr/informatique/";
+ //   static String baseUrl = "http://www.enseignement.polytechnique.fr/informatique/";
 //    static String regex = "http://www.enseignement.polytechnique.fr/informatique/.*";
-
+    
+//    static String baseUrl = "https://www.amazon.fr/";
+ //   static String regex = "https://www.amazon.fr/.*";
+    
+    static String baseUrl = "http://www.lemonde.fr/";
+    static String regex = "http://www.lemonde.fr/.*";
 
     public static void main(String[] args) throws InterruptedException {
 
-//        firstAlgorithm();
+        //firstAlgorithm();
         secondAlgorithm();
 
     }
@@ -42,7 +47,7 @@ public class Main {
             surfers[i].start();
         }
 
-        Displayer disp = new Displayer(web, 1000);
+        Displayer disp = new Displayer(web, 1000,true);
         disp.start();
         for (int i = 0; i < nbBot; i++) {
             surfers[i].join();
@@ -63,14 +68,12 @@ public class Main {
         long tWalkers;
         long tCSComputation;
 
-        Displayer disp = new Displayer(web, 7000);
-        disp.start();
 
         //Exploration du graphe
         tExploration = System.nanoTime();
         ExplorationManager em = new ExplorationManager(web, baseUrl, regex);
         em.startExploration(nbBot, nbSteps);
-        tExploration = (System.nanoTime() - tExploration) / 100000000;
+        tExploration = (System.nanoTime() - tExploration) / 10000000;
 
 
         // Détermination du PageRank.
@@ -85,7 +88,7 @@ public class Main {
         }
         exec.shutdown();
         exec.awaitTermination(10000, TimeUnit.MILLISECONDS);
-        tWalkers = (System.nanoTime() - tWalkers) / 100000000;
+        tWalkers = (System.nanoTime() - tWalkers) / 10000000;
 
 
         //Computing CSRank
@@ -97,11 +100,14 @@ public class Main {
 
         System.out.println("Done in " + t + " s"
                 + "\nSpending:\n"
-                + tExploration + " s in exploration\n"
-                + tWalkers / 10 + " s in random walks\n"
+                + tExploration/100 + " s in exploration\n"
+                + tWalkers / 100 + " s in random walks\n"
                 + tCSComputation + " s in CS Rank computation\n");
-        System.out.println("Exploration speed: " + web.getpages().size()*10 / tExploration + "pages/s.");
-        System.out.println("Walkers speed: " + web.getNbVisitsTotal() * 10 / tWalkers + "pages/s.");
+        System.out.println("Exploration speed: " + web.getpages().size()*100 / tExploration + "pages/s.");
+        System.out.println("Walkers speed: " + web.getNbVisitsTotal() * 100 / tWalkers + "pages/s.");
+        
+        Displayer disp = new Displayer(web, 1000,false);
+        disp.start();
     }
 
 }
