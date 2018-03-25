@@ -6,15 +6,15 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
     static int nbBot = 3;
-    static int nbSteps = 6;
-    static int nbExplorationsPerBot = 100000;
+    static int nbSteps = 4;
+    static int nbExplorationsPerBot = 1000;
     static int nbCores = Runtime.getRuntime().availableProcessors();
 
 //    static String baseUrl="http://mythicspoiler.com/";
 //    static String regex="http.+mythic.*";
 
-//    static String baseUrl = "https://www.polytechnique.edu/";
-//    static String regex = "https://www.polytechnique.edu/.*";
+    static String baseUrl = "https://www.polytechnique.edu/";
+    static String regex = "https://www.polytechnique.edu/.*";
 
 //    static String baseUrl="http://www.centralesupelec.fr/";
 //    static String regex = "http.+centralesupelec.*";
@@ -22,8 +22,8 @@ public class Main {
 //    static String baseUrl="https://www.insa-lyon.fr";
 //    static String regex = "https://www.insa-lyon.fr.*";
 
-    static String baseUrl = "http://www.enseignement.polytechnique.fr/informatique/";
-    static String regex = "http://www.enseignement.polytechnique.fr/informatique/.*";
+//    static String baseUrl = "http://www.enseignement.polytechnique.fr/informatique/";
+//    static String regex = "http://www.enseignement.polytechnique.fr/informatique/.*";
 
 
     public static void main(String[] args) throws InterruptedException {
@@ -38,7 +38,7 @@ public class Main {
         Concurrent_WebGraph web = new Concurrent_WebGraph();
         Surfer[] surfers = new Surfer[nbBot];
         for (int i = 0; i < nbBot; i++) {
-            surfers[i] = new Surfer(web, baseUrl, regex, 50);
+            surfers[i] = new Surfer(web, baseUrl, regex, nbExplorationsPerBot);
             surfers[i].start();
         }
 
@@ -48,6 +48,9 @@ public class Main {
             surfers[i].join();
         }
         t = (System.nanoTime() - t) / 1000000000;
+
+        web.computeCSRank();
+
         System.out.println("Explored " + web.getNbVisitsTotal() + " pages in " + t + " seconds.");
         System.out.println("Speed: " + web.getNbVisitsTotal() / t + "pages/s.");
 
@@ -87,7 +90,7 @@ public class Main {
 
         //Computing CSRank
         tCSComputation = System.nanoTime();
-        web.computeCSRank(K);
+        web.computeCSRank();
         tCSComputation = (System.nanoTime() - tCSComputation) / 1000000000;
 
         t = (System.nanoTime() - t) / 1000000000;

@@ -12,7 +12,7 @@ public class RandomWalker implements Runnable {
 
     public RandomWalker(Concurrent_WebGraph web, Page p) {
         this.web = web;
-        startPage = p;
+        this.startPage = p;
         rd = new Random();
     }
 
@@ -35,6 +35,7 @@ public class RandomWalker implements Runnable {
         } else {
             if (neighbors.size() > 0) {
                 nextPage = neighbors.get(Math.abs(rd.nextInt()) % neighbors.size());
+                if (nextPage== startPage) return null;
                 nextPage.visit();
                 web.incrVisits();
             } else {
