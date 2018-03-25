@@ -45,7 +45,7 @@ public class Explorer extends Thread {
                     l = l.substring(0, l.length() - 1);
                 }
 
-          	 if (Pattern.matches(regex, l)) {
+          	 if (Pattern.matches(regex, l) && !l.substring(l.length()-4).equals(".pdf") && !l.substring(l.length()-4).equals(".xml")) {
           		 Page p = web.getPage(l);
           		 queue.add(p); // p will actually be added to queue only if it had never been visited
           		 currentPage.add_neighbor(p);
