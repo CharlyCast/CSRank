@@ -52,7 +52,8 @@ public class Displayer extends Thread {
 					n=graph_gs.addNode(p.get_url());
 				}
 				float csrank= (float)(nbVisits)/(float)(nbVisitsTotal);
-				n.addAttribute("ui.style", "size:"+ (csrank*nodeSize)+"px;fill-color:rgb(0,62,150);");
+				//n.addAttribute("ui.style", "size:"+ (csrank*nodeSize)+"px;fill-color:rgb(0,62,150);");
+				n.addAttribute("ui.style", "size:"+ (-1/Math.log(csrank)*nodeSize/10)+"px;fill-color:rgb(0,62,150);");
 				if (real_time) {
 					n.addAttribute("layout.weight", csrank*nodeSize/100); //reduce the repulsion when displayed in real_time, because it's too shaky otherwise
 				}
