@@ -66,7 +66,7 @@ public class Main {
         tExploration = System.nanoTime();
         ExplorationManager em = new ExplorationManager(web, baseUrl, regex);
         em.startExploration(nbBot, 3);
-        tExploration = (System.nanoTime() - tExploration) / 1000000000;
+        tExploration = (System.nanoTime() - tExploration) / 100000000;
 
 
         // Détermination du PageRank.
@@ -96,7 +96,7 @@ public class Main {
                 + tExploration + " s in exploration\n"
                 + tWalkers / 10 + " s in random walks\n"
                 + tCSComputation + " s in CS Rank computation\n");
-        System.out.println("Exploration speed: " + web.getpages().size() / tExploration + "pages/s.");
+        System.out.println("Exploration speed: " + web.getpages().size()*10 / tExploration + "pages/s.");
         System.out.println("Walkers speed: " + web.getNbVisitsTotal() * 10 / tWalkers + "pages/s.");
     }
 

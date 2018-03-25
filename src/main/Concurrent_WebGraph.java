@@ -18,7 +18,7 @@ public class Concurrent_WebGraph {
         pages = new ArrayList<Page>();
         lock = new ReentrantLock();
         map = new HashMap<String, Page>();
-        nbVisitsTotal = new AtomicInteger(1);
+        nbVisitsTotal = new AtomicInteger(0);
     }
 
     public void visit(String origin, String destination) { 

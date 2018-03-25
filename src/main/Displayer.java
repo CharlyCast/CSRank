@@ -38,7 +38,7 @@ public class Displayer extends Thread {
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-			nbVisitsTotal=web.getNbVisitsTotal();
+			nbVisitsTotal=Math.max(web.getNbVisitsTotal(),1);
 			pages= (ArrayList<Page>)(web.getpages()).clone();
 			for (Page p : pages) {
 				nbVisits=p.get_nbVisits();
