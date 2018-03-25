@@ -40,10 +40,10 @@ public class Explorer extends Thread {
 
             String l;
             for (Element link : links) {
-            	l = link.attr("href");
-            	if (l.length()>0 && l.substring(l.length()-1).equals("/")){ //Remove the / at the end of the url if there is one (avoids duplicates)
-            		l=l.substring(0, l.length()-1);
-            	}
+                l = link.attr("href");
+                if (l.length() > 0 && l.substring(l.length() - 1).equals("/")) { //Remove the / at the end of the url if there is one (avoids duplicates)
+                    l = l.substring(0, l.length() - 1);
+                }
 
           	 if (Pattern.matches(regex, l)) {
           		 Page p = web.getPage(l);
@@ -52,7 +52,7 @@ public class Explorer extends Thread {
           		 web.addPage(p);
           	 }
 
-        }
+            }
         } catch (IOException e) {
             //e.printStackTrace();
         }

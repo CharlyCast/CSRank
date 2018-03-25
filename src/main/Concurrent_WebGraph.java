@@ -1,8 +1,6 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -21,7 +19,7 @@ public class Concurrent_WebGraph {
         nbVisitsTotal = new AtomicInteger(0);
     }
 
-    public void visit(String origin, String destination) { 
+    public void visit(String origin, String destination) {
         Page pOrigin = getPage(origin);
         Page pDest = getPage(destination);
         pDest.visit();
@@ -66,15 +64,22 @@ public class Concurrent_WebGraph {
     }
 
     public void incrVisits() {
-        int nb=nbVisitsTotal.get();
-        while (!nbVisitsTotal.compareAndSet(nb,nb+1)){
-        	nb=nbVisitsTotal.get();
+        int nb = nbVisitsTotal.get();
+        while (!nbVisitsTotal.compareAndSet(nb, nb + 1)) {
+            nb = nbVisitsTotal.get();
         }
+    }
+
+    public void incrVisits(Page p) {
+        int nb = nbVisitsTotal.get();
+        while (!nbVisitsTotal.compareAndSet(nb, nb + 1)) {
+            nb = nbVisitsTotal.get();
+        }
+        p.visit();
     }
 
     public String getRandomUrl() {
 //        Return a random url
-
         return pages.get(Math.abs(rd.nextInt()) % pages.size()).get_url();
     }
 
@@ -82,14 +87,24 @@ public class Concurrent_WebGraph {
         return pages.get(Math.abs(rand.nextInt()) % pages.size());
     }
 
-    public void computeCSRank (int K){
-        double s=0;
-        for (Page p: pages){
-            p.set_CSRank((double)p.get_nbVisits()/(double)nbVisitsTotal.get());
-            s+=p.get_CSRank();
-            System.out.println(p.get_CSRank() +" CS for "+ p.get_url());
+    public void computeCSRank(int K) {
+        double s = 0;
+        for (Page p : pages) {
+            p.set_CSRank((double) p.get_nbVisits() / (double) nbVisitsTotal.get());
+            s += p.get_CSRank();
+            p.set_CSRank(-1/Math.log(p.get_CSRank()));
+//            System.out.println(p.get_CSRank() + " CS for " + p.get_url());
         }
-        System.out.println("CS rank sum : "+s);
+
+        LinkedList<Page> pagesSorted = new LinkedList(map.values());
+
+        Collections.sort(pagesSorted);
+
+        for (Page p : pagesSorted){
+            System.out.println(p.get_CSRank() + " CS for " + p.get_url());
+        }
+
+        System.out.println("CS rank sum : " + s);
     }
 
 }

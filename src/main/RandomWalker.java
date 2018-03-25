@@ -18,7 +18,7 @@ public class RandomWalker implements Runnable {
 
     public void run() {
         Page page = startPage;
-        
+
         while (page != null) {
         	page.visit();
         	//web.getPage(page.get_url()).visit();
@@ -35,6 +35,8 @@ public class RandomWalker implements Runnable {
         } else {
             if (neighbors.size() > 0) {
                 nextPage = neighbors.get(Math.abs(rd.nextInt()) % neighbors.size());
+                nextPage.visit();
+                web.incrVisits();
             } else {
                 nextPage = null;
             }

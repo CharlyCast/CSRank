@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
     static int nbBot = 3;
+    static int nbSteps = 6;
     static int nbExplorationsPerBot = 100000;
     static int nbCores = Runtime.getRuntime().availableProcessors();
 
@@ -65,7 +66,7 @@ public class Main {
         //Exploration du graphe
         tExploration = System.nanoTime();
         ExplorationManager em = new ExplorationManager(web, baseUrl, regex);
-        em.startExploration(nbBot, 3);
+        em.startExploration(nbBot, nbSteps);
         tExploration = (System.nanoTime() - tExploration) / 100000000;
 
 

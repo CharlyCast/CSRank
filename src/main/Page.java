@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Page {
+public class Page implements Comparable {
     private final String url;
     private String title;
     private AtomicInteger nbVisits;
@@ -23,9 +23,9 @@ public class Page {
     }
 
     public void visit() {
-        int nb=nbVisits.get();
-        while (!nbVisits.compareAndSet(nb, nb+1)){
-        	nb=nbVisits.get();
+        int nb = nbVisits.get();
+        while (!nbVisits.compareAndSet(nb, nb + 1)) {
+            nb = nbVisits.get();
         }
     }
 
@@ -55,7 +55,7 @@ public class Page {
     }
 
     public int get_nbVisits() {
-    	return nbVisits.get();
+        return nbVisits.get();
     }
 
     public ArrayList<Page> get_neighbors() {
@@ -81,5 +81,11 @@ public class Page {
 
     public void set_CSRank(double CSRank) {
         this.CSRank = CSRank;
+    }
+
+    @Override
+    public int compareTo(Object p) {
+        Page page = (Page) p;
+        return (this.get_CSRank() < page.get_CSRank()) ? -1 : 1;
     }
 }
