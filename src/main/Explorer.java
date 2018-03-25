@@ -46,7 +46,7 @@ public class Explorer extends Thread {
             	}
 
           	 if (Pattern.matches(regex, l)) {
-          		 Page p = new Page(l);
+          		 Page p = web.getPage(l);
           		 queue.add(p); // p will actually be added to queue only if it had never been visited
           		 currentPage.add_neighbor(p);
           		 web.addPage(p);

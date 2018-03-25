@@ -20,8 +20,8 @@ public class RandomWalker implements Runnable {
         Page page = startPage;
         
         while (page != null) {
-        	//page.visit();
-        	web.getPage(page.get_url()).visit();
+        	page.visit();
+        	//web.getPage(page.get_url()).visit();
             web.incrVisits();
             page = explore(page);
         }
