@@ -6,21 +6,21 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
     static int nbBot = 3;
-    static int nbSteps = 4;
+    static int nbSteps = 3;
     static int nbExplorationsPerBot = 1000;
     static int nbCores = Runtime.getRuntime().availableProcessors();
 
 //    static String baseUrl="http://mythicspoiler.com/";
 //    static String regex="http.+mythic.*";
 
- //   static String baseUrl = "https://www.polytechnique.edu/";
- //   static String regex = "https://www.polytechnique.edu/.*";
+    //static String baseUrl = "https://www.polytechnique.edu/";
+    //static String regex = "https://www.polytechnique.edu/.*";
 
 //    static String baseUrl="http://www.centralesupelec.fr/";
 //    static String regex = "http.+centralesupelec.*";
 
-//    static String baseUrl="https://www.insa-lyon.fr";
-//    static String regex = "https://www.insa-lyon.fr.*";
+ //   static String baseUrl="https://www.insa-lyon.fr";
+ //   static String regex = "https://www.insa-lyon.fr.*";
 
  //   static String baseUrl = "http://www.enseignement.polytechnique.fr/informatique/";
 //    static String regex = "http://www.enseignement.polytechnique.fr/informatique/.*";
@@ -71,12 +71,13 @@ public class Main {
 
         //Exploration du graphe
         tExploration = System.nanoTime();
-        ExplorationManager em = new ExplorationManager(web, baseUrl, regex);
+        ExplorationManager em = new ExplorationManager(web, baseUrl, regex,0.95f);
         em.startExploration(nbBot, nbSteps);
         tExploration = (System.nanoTime() - tExploration) / 10000000;
 
 
         // Détermination du PageRank.
+        System.out.println("Starting the random walks");
         tWalkers = System.nanoTime();
         ExecutorService exec = Executors.newFixedThreadPool(nbCores);
         int n = web.getpages().size();
