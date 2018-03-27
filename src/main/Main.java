@@ -6,21 +6,21 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
     static int nbBot = 3;
-    static int nbSteps = 4;
+    static int nbSteps = 3;
     static int nbExplorationsPerBot = 1000;
     static int nbCores = Runtime.getRuntime().availableProcessors();
 
 //    static String baseUrl="http://mythicspoiler.com/";
 //    static String regex="http.+mythic.*";
 
- //   static String baseUrl = "https://www.polytechnique.edu/";
- //   static String regex = "https://www.polytechnique.edu/.*";
+    static String baseUrl = "https://www.polytechnique.edu/";
+    static String regex = "https://www.polytechnique.edu/.*";
 
 //    static String baseUrl="http://www.centralesupelec.fr/";
 //    static String regex = "http.+centralesupelec.*";
 
-//    static String baseUrl="https://www.insa-lyon.fr";
-//    static String regex = "https://www.insa-lyon.fr.*";
+ //   static String baseUrl="https://www.insa-lyon.fr";
+ //   static String regex = "https://www.insa-lyon.fr.*";
 
  //   static String baseUrl = "http://www.enseignement.polytechnique.fr/informatique/";
 //    static String regex = "http://www.enseignement.polytechnique.fr/informatique/.*";
@@ -28,12 +28,12 @@ public class Main {
 //    static String baseUrl = "https://www.amazon.fr";
  //   static String regex = "https://www.amazon.fr.*";
     
-    static String baseUrl = "http://www.lemonde.fr";
-    static String regex = "http://www.lemonde.fr.*";
+   // static String baseUrl = "http://www.lemonde.fr";
+   // static String regex = "http://www.lemonde.fr.*";
 
     public static void main(String[] args) throws InterruptedException {
 
-        //firstAlgorithm();
+       // firstAlgorithm();
         secondAlgorithm();
 
     }
@@ -77,10 +77,11 @@ public class Main {
 
 
         // Détermination du PageRank.
+        System.out.println("Starting the random walks");
         tWalkers = System.nanoTime();
         ExecutorService exec = Executors.newFixedThreadPool(nbCores);
         int n = web.getpages().size();
-        int K = (int) (Math.log((double) n)) * 1000;
+        int K = (int) (Math.log((double) n)) * 10;
         for (int i = 0; i < K; i++) {
             for (int j = 0; j < n; j++) {
                 exec.execute(new RandomWalker(web, web.getpages().get(j)));

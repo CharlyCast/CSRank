@@ -46,6 +46,7 @@ public class Concurrent_FIFO_Queue {
     }
 
     public void switchQueue() {
+    	System.out.println("Switching queue. "  + nextQueue.size() + " pages will be explored on the next depth.");
         currentQueue = nextQueue;
         nextQueue = new LinkedList<Page>();
     }

@@ -98,7 +98,7 @@ public class Concurrent_WebGraph {
 
         LinkedList<Page> pagesSorted = new LinkedList(map.values());
 
-        Collections.sort(pagesSorted);
+       // Collections.sort(pagesSorted);
 
         for (Page p : pagesSorted){
             System.out.println(p.get_CSRank() + " CS for " + p.get_url());
