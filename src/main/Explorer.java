@@ -42,20 +42,23 @@ public class Explorer extends Thread {
 
             String l;
             for (Element link : links) {
-                l = link.attr("href");
-                if (l.length() > 0 && l.substring(l.length() - 1).equals("/")) { //Remove the / at the end of the url if there is one (avoids duplicates)
-                    l = l.substring(0, l.length() - 1);
-                }
+            	if (Math.random()>proba){
+            		l = link.attr("href");
+            		if (l.length() > 0 && l.substring(l.length() - 1).equals("/")) { //Remove the / at the end of the url if there is one (avoids duplicates)
+            			l = l.substring(0, l.length() - 1);
+            		}
                 
-                if (!Pattern.matches("http://.*", l) && !Pattern.matches("https://.*", l)){ // For internal links like "/service"
-                	l= currentPage.get_url() + l;
-                }
-          	 if (Pattern.matches(regex, l)&& !l.substring(l.length()-4).equals(".pdf") && !l.substring(l.length()-4).equals(".xml")&& Math.random()>proba) {
-          		 Page p = web.getPage(l); //A new page will be created if it had never been visited
-          		 queue.add(p); // p will actually be added to queue only if it had never been visited
-          		 currentPage.add_neighbor(p);
-          		 web.addPage(p);
-          	 }
+            		if (!Pattern.matches("http://.*", l) && !Pattern.matches("https://.*", l)){ // For internal links like "/service"
+            			l= currentPage.get_url() + l;
+            		}
+            		if (Pattern.matches(regex, l)&& !l.substring(l.length()-4).equals(".pdf") && !l.substring(l.length()-4).equals(".xml")){
+            			Page p = web.getPage(l); //A new page will be created if it had never been visited
+            			queue.add(p); // p will actually be added to queue only if it had never been visited
+            			currentPage.add_neighbor(p);
+            			web.addPage(p);
+            		}
+            	}
+                
 
             }
         } catch (IOException e) {

@@ -71,7 +71,7 @@ public class Main {
 
         //Exploration du graphe
         tExploration = System.nanoTime();
-        ExplorationManager em = new ExplorationManager(web, baseUrl, regex,0.97f);
+        ExplorationManager em = new ExplorationManager(web, baseUrl, regex,0.95f);
         em.startExploration(nbBot, nbSteps);
         tExploration = (System.nanoTime() - tExploration) / 10000000;
 
