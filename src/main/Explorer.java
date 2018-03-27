@@ -15,11 +15,13 @@ public class Explorer extends Thread {
     Page currentPage;
     Document doc;
     String regex;
+    float proba;
 
-    public Explorer(Concurrent_WebGraph web, Concurrent_FIFO_Queue queue, String regex) {
+    public Explorer(Concurrent_WebGraph web, Concurrent_FIFO_Queue queue, String regex, float proba) {
         this.web = web;
         this.queue = queue;
         this.regex = regex;
+        this.proba=proba;
     }
 
     public void run() {
@@ -45,11 +47,10 @@ public class Explorer extends Thread {
                     l = l.substring(0, l.length() - 1);
                 }
                 
-                if (!Pattern.matches("http://www.", l) || !Pattern.matches("http://www.", l)){ // For internal links like "/service"
+                if (!Pattern.matches("http://.*", l) && !Pattern.matches("https://.*", l)){ // For internal links like "/service"
                 	l= currentPage.get_url() + l;
                 }
-
-          	 if (Pattern.matches(regex, l)&& !l.substring(l.length()-4).equals(".pdf") && !l.substring(l.length()-4).equals(".xml")) {
+          	 if (Pattern.matches(regex, l)&& !l.substring(l.length()-4).equals(".pdf") && !l.substring(l.length()-4).equals(".xml")&& Math.random()>proba) {
           		 Page p = web.getPage(l); //A new page will be created if it had never been visited
           		 queue.add(p); // p will actually be added to queue only if it had never been visited
           		 currentPage.add_neighbor(p);

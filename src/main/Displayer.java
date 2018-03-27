@@ -52,8 +52,8 @@ public class Displayer extends Thread {
 					n=graph_gs.addNode(p.get_url());
 				}
 				float csrank= (float)(nbVisits)/(float)(nbVisitsTotal);
-				//n.addAttribute("ui.style", "size:"+ (csrank*nodeSize)+"px;fill-color:rgb(0,62,150);");
-				n.addAttribute("ui.style", "size:"+ (-1/Math.log(csrank)*nodeSize/10)+"px;fill-color:rgb(0,62,150);");
+				n.addAttribute("ui.style", "size:"+ (csrank*nodeSize)+"px;fill-color:rgb(0,62,150);");
+				//n.addAttribute("ui.style", "size:"+ (-1/Math.log(csrank)*nodeSize/10)+"px;fill-color:rgb(0,62,150);");
 				if (real_time) {
 					n.addAttribute("layout.weight", csrank*nodeSize/100); //reduce the repulsion when displayed in real_time, because it's too shaky otherwise
 				}
@@ -61,9 +61,9 @@ public class Displayer extends Thread {
 					n.addAttribute("layout.weight", csrank*nodeSize);
 				}
 				
-				if (csrank>0.7f/pages.size()) {
-					//n.addAttribute("ui.label", p.get_url().substring(0, Math.min(p.get_url().length(), 45)));
-					n.addAttribute("ui.label", p.getTitle().substring(0, Math.min(p.getTitle().length(), 25)));
+				if (csrank>1.0f/pages.size()) {
+					//n.addAttribute("ui.label", p.get_url().substring(0, Math.min(p.get_url().length(), 90)));
+					n.addAttribute("ui.label", p.getTitle().substring(0, Math.min(p.getTitle().length(), 35)));
 				}
 				else{
 					n.removeAttribute("ui.label");

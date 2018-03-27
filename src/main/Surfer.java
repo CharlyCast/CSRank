@@ -71,7 +71,7 @@ public class Surfer extends Thread {
                 l = l.substring(0, l.length() - 1);
             }
             
-            if (!Pattern.matches("http://www.*", l) || !Pattern.matches("http://www.*", l)){ // For internal links like "/service"
+            if (!Pattern.matches("http://www.*", l) && !Pattern.matches("http://www.*", l)){ // For internal links like "/service"
             	l= url + l;
             }
             if (Pattern.matches(regex, l)) {

@@ -13,8 +13,8 @@ public class Main {
 //    static String baseUrl="http://mythicspoiler.com/";
 //    static String regex="http.+mythic.*";
 
-    static String baseUrl = "https://www.polytechnique.edu/";
-    static String regex = "https://www.polytechnique.edu/.*";
+    //static String baseUrl = "https://www.polytechnique.edu/";
+    //static String regex = "https://www.polytechnique.edu/.*";
 
 //    static String baseUrl="http://www.centralesupelec.fr/";
 //    static String regex = "http.+centralesupelec.*";
@@ -28,12 +28,12 @@ public class Main {
 //    static String baseUrl = "https://www.amazon.fr";
  //   static String regex = "https://www.amazon.fr.*";
     
-   // static String baseUrl = "http://www.lemonde.fr";
-   // static String regex = "http://www.lemonde.fr.*";
+    static String baseUrl = "http://www.lemonde.fr";
+    static String regex = "http://www.lemonde.fr.*";
 
     public static void main(String[] args) throws InterruptedException {
 
-       // firstAlgorithm();
+        //firstAlgorithm();
         secondAlgorithm();
 
     }
@@ -71,7 +71,7 @@ public class Main {
 
         //Exploration du graphe
         tExploration = System.nanoTime();
-        ExplorationManager em = new ExplorationManager(web, baseUrl, regex);
+        ExplorationManager em = new ExplorationManager(web, baseUrl, regex,0.97f);
         em.startExploration(nbBot, nbSteps);
         tExploration = (System.nanoTime() - tExploration) / 10000000;
 
@@ -81,7 +81,7 @@ public class Main {
         tWalkers = System.nanoTime();
         ExecutorService exec = Executors.newFixedThreadPool(nbCores);
         int n = web.getpages().size();
-        int K = (int) (Math.log((double) n)) * 10;
+        int K = (int) (Math.log((double) n)) * 1000;
         for (int i = 0; i < K; i++) {
             for (int j = 0; j < n; j++) {
                 exec.execute(new RandomWalker(web, web.getpages().get(j)));
