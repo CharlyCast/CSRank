@@ -7,34 +7,34 @@ import java.util.concurrent.TimeUnit;
 public class Main {
     static int nbBot = 3;
     static int nbSteps = 3;
-    static int nbExplorationsPerBot = 1000;
+    static int nbExplorationsPerBot = 200;
     static int nbCores = Runtime.getRuntime().availableProcessors();
 
-//    static String baseUrl="http://mythicspoiler.com/";
+//    static String baseUrl="http://mythiPagepoiler.com/";
 //    static String regex="http.+mythic.*";
 
-    //static String baseUrl = "https://www.polytechnique.edu/";
-    //static String regex = "https://www.polytechnique.edu/.*";
+    static String baseUrl = "https://www.polytechnique.edu/";
+    static String regex = "https://www.polytechnique.edu/.*";
 
 //    static String baseUrl="http://www.centralesupelec.fr/";
 //    static String regex = "http.+centralesupelec.*";
 
- //   static String baseUrl="https://www.insa-lyon.fr";
- //   static String regex = "https://www.insa-lyon.fr.*";
+//       static String baseUrl="https://www.insa-lyon.fr";
+//       static String regex = "https://www.insa-lyon.fr.*";
 
- //   static String baseUrl = "http://www.enseignement.polytechnique.fr/informatique/";
+//    static String baseUrl = "http://www.enseignement.polytechnique.fr/informatique/";
 //    static String regex = "http://www.enseignement.polytechnique.fr/informatique/.*";
-    
+
 //    static String baseUrl = "https://www.amazon.fr";
- //   static String regex = "https://www.amazon.fr.*";
-    
-    static String baseUrl = "http://www.lemonde.fr";
-    static String regex = "http://www.lemonde.fr.*";
+//       static String regex = "https://www.amazon.fr.*";
+
+//    static String baseUrl = "http://www.lemonde.fr";
+//    static String regex = "http://www.lemonde.fr.*";
 
     public static void main(String[] args) throws InterruptedException {
 
-        //firstAlgorithm();
-        secondAlgorithm();
+        firstAlgorithm();
+//        secondAlgorithm();
 
     }
 
@@ -47,14 +47,14 @@ public class Main {
             surfers[i].start();
         }
 
-        Displayer disp = new Displayer(web, 1000,true);
+        Displayer disp = new Displayer(web, 1000, true);
         disp.start();
         for (int i = 0; i < nbBot; i++) {
             surfers[i].join();
         }
         t = (System.nanoTime() - t) / 1000000000;
 
-        web.computeCSRank();
+        web.computePageRank();
 
         System.out.println("Explored " + web.getNbVisitsTotal() + " pages in " + t + " seconds.");
         System.out.println("Speed: " + web.getNbVisitsTotal() / t + "pages/s.");
@@ -66,12 +66,12 @@ public class Main {
         long t = System.nanoTime();
         long tExploration;
         long tWalkers;
-        long tCSComputation;
+        long tPageComputation;
 
 
         //Exploration du graphe
         tExploration = System.nanoTime();
-        ExplorationManager em = new ExplorationManager(web, baseUrl, regex,0.95f);
+        ExplorationManager em = new ExplorationManager(web, baseUrl, regex, 0.95f);
         em.startExploration(nbBot, nbSteps);
         tExploration = (System.nanoTime() - tExploration) / 10000000;
 
@@ -92,22 +92,22 @@ public class Main {
         tWalkers = (System.nanoTime() - tWalkers) / 10000000;
 
 
-        //Computing CSRank
-        tCSComputation = System.nanoTime();
-        web.computeCSRank();
-        tCSComputation = (System.nanoTime() - tCSComputation) / 1000000000;
+        //Computing PageRank
+        tPageComputation = System.nanoTime();
+        web.computePageRank();
+        tPageComputation = (System.nanoTime() - tPageComputation) / 1000000000;
 
         t = (System.nanoTime() - t) / 1000000000;
 
         System.out.println("Done in " + t + " s"
                 + "\nSpending:\n"
-                + tExploration/100 + " s in exploration\n"
+                + tExploration / 100 + " s in exploration\n"
                 + tWalkers / 100 + " s in random walks\n"
-                + tCSComputation + " s in CS Rank computation\n");
-        System.out.println("Exploration speed: " + web.getpages().size()*100 / tExploration + "pages/s.");
+                + tPageComputation + " s in Page Rank computation\n");
+        System.out.println("Exploration speed: " + web.getpages().size() * 100 / tExploration + "pages/s.");
         System.out.println("Walkers speed: " + web.getNbVisitsTotal() * 100 / tWalkers + "pages/s.");
-        
-        Displayer disp = new Displayer(web, 1000,false);
+
+        Displayer disp = new Displayer(web, 1000, false);
         disp.start();
     }
 

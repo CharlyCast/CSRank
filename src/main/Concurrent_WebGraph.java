@@ -87,13 +87,13 @@ public class Concurrent_WebGraph {
         return pages.get(Math.abs(rand.nextInt()) % pages.size());
     }
 
-    public void computeCSRank() {
+    public void computePageRank() {
         double s = 0;
         for (Page p : pages) {
-            p.set_CSRank((double) p.get_nbVisits() / (double) nbVisitsTotal.get());
-            s += p.get_CSRank();
-            p.set_CSRank(-1/Math.log(p.get_CSRank()));
-//            System.out.println(p.get_CSRank() + " CS for " + p.get_url());
+            p.set_PageRank((double) p.get_nbVisits() / (double) nbVisitsTotal.get());
+            s += p.get_PageRank();
+            p.set_PageRank(-1/Math.log(p.get_PageRank()));
+//            System.out.println(p.get_PageRank() + " Page for " + p.get_url());
         }
 
         LinkedList<Page> pagesSorted = new LinkedList(map.values());
@@ -101,10 +101,10 @@ public class Concurrent_WebGraph {
         Collections.sort(pagesSorted);
 
         for (Page p : pagesSorted){
-            System.out.println(p.get_CSRank() + " CS for " + p.get_url());
+            System.out.println(p.get_PageRank() + " Page for " + p.get_url());
         }
 
-        System.out.println("CS rank sum : " + s);
+        System.out.println("Page rank sum : " + s);
     }
 
 }
