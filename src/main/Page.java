@@ -12,7 +12,7 @@ public class Page implements Comparable {
     //private HashMap<String,Page> outNeighbors;
     private ArrayList<Page> outNeighbors;
     private ReentrantLock lock;
-    private double PageRank;
+    private double pageRank;
 
     public Page(String url) {
         this.url = url;
@@ -75,17 +75,17 @@ public class Page implements Comparable {
         return url.hashCode();
     }
 
-    public double get_PageRank() {
-        return PageRank;
+    public double get_pageRank() {
+        return pageRank;
     }
 
-    public void set_PageRank(double PageRank) {
-        this.PageRank = PageRank;
+    public void set_pageRank(double pageRank) {
+        this.pageRank = pageRank;
     }
 
     @Override
     public int compareTo(Object p) {
         Page page = (Page) p;
-        return (this.get_PageRank() < page.get_PageRank()) ? -1 : 1;
+        return (this.get_pageRank() < page.get_pageRank()) ? -1 : 1;
     }
 }
