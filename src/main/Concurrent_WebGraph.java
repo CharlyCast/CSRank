@@ -90,10 +90,10 @@ public class Concurrent_WebGraph {
     public void computePageRank() {
         double s = 0;
         for (Page p : pages) {
-            p.set_PageRank((double) p.get_nbVisits() / (double) nbVisitsTotal.get());
-            s += p.get_PageRank();
-            p.set_PageRank(-1/Math.log(p.get_PageRank()));
-//            System.out.println(p.get_PageRank() + " Page for " + p.get_url());
+            p.set_pageRank((double) p.get_nbVisits() / (double) nbVisitsTotal.get());
+            s += p.get_pageRank();
+            p.set_pageRank(-1/Math.log(p.get_pageRank()));
+//            System.out.println(p.get_pageRank() + " Page for " + p.get_url());
         }
 
         LinkedList<Page> pagesSorted = new LinkedList(map.values());
@@ -101,7 +101,7 @@ public class Concurrent_WebGraph {
         Collections.sort(pagesSorted);
 
         for (Page p : pagesSorted){
-            System.out.println(p.get_PageRank() + " Page for " + p.get_url());
+            System.out.println(p.get_pageRank() + " Page for " + p.get_url());
         }
 
         System.out.println("Page rank sum : " + s);

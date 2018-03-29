@@ -17,11 +17,10 @@ public class Explorer extends Thread {
     String regex;
     float proba;
 
-    public Explorer(Concurrent_WebGraph web, Concurrent_FIFO_Queue queue, String regex, float proba) {
+    public Explorer(Concurrent_WebGraph web, Concurrent_FIFO_Queue queue, String regex) {
         this.web = web;
         this.queue = queue;
         this.regex = regex;
-        this.proba=proba;
     }
 
     public void run() {
@@ -42,27 +41,25 @@ public class Explorer extends Thread {
 
             String l;
             for (Element link : links) {
-            	if (Math.random()>proba){
-            		l = link.attr("href");
-            		if (l.length() > 0 && l.substring(l.length() - 1).equals("/")) { //Remove the / at the end of the url if there is one (avoids duplicates)
-            			l = l.substring(0, l.length() - 1);
-            		}
-                
-            		if (!Pattern.matches("http://.*", l) && !Pattern.matches("https://.*", l)){ // For internal links like "/service"
-            			l= currentPage.get_url() + l;
-            		}
-            		if (Pattern.matches(regex, l)&& !l.substring(l.length()-4).equals(".pdf") && !l.substring(l.length()-4).equals(".xml")){
-            			Page p = web.getPage(l); //A new page will be created if it had never been visited
-            			queue.add(p); // p will actually be added to queue only if it had never been visited
-            			currentPage.add_neighbor(p);
-            			web.addPage(p);
-            		}
-            	}
-                
-
+                l = link.attr("href");
+                if (l.length() > 0 && l.substring(l.length() - 1).equals("/")) { //Remove the / at the end of the url if there is one (avoids duplicates)
+                    l = l.substring(0, l.length() - 1);
+                }
+                // For internal links like "/service"
+//            		if (!Pattern.matches("http://.*", l) && !Pattern.matches("https://.*", l)){
+//            			l= currentPage.get_url() + l;
+//            		}
+                if (Pattern.matches(regex, l) && !l.substring(l.length() - 4).equals(".pdf") && !l.substring(l.length() - 4).equals(".xml")) {
+                    Page p = web.getPage(l); //A new page will be created if it had never been visited
+                    queue.add(p); // p will actually be added to queue only if it had never been visited
+                    currentPage.add_neighbor(p);
+                    web.addPage(p);
+                }
             }
-        } catch (IOException e) {
-            //e.printStackTrace();
+
+
+        } catch (IOException e1) {
+            //e1.printStackTrace();
         }
     }
 }

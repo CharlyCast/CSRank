@@ -13,8 +13,8 @@ public class Main {
 //    static String baseUrl="http://mythicspoiler.com/";
 //    static String regex="http.+mythic.*";
 
- //   static String baseUrl = "https://www.polytechnique.edu/";
- //   static String regex = "https://www.polytechnique.edu/.*";
+    static String baseUrl = "https://www.polytechnique.edu/";
+    static String regex = "https://www.polytechnique.edu/.*";
 
 //    static String baseUrl="http://www.centralesupelec.fr/";
 //    static String regex = "http.+centralesupelec.*";
@@ -22,14 +22,14 @@ public class Main {
 //    static String baseUrl="https://www.insa-lyon.fr";
 //    static String regex = "https://www.insa-lyon.fr.*";
 
- //   static String baseUrl = "http://www.enseignement.polytechnique.fr/informatique/";
+//    static String baseUrl = "http://www.enseignement.polytechnique.fr/informatique/";
 //    static String regex = "http://www.enseignement.polytechnique.fr/informatique/.*";
     
 //    static String baseUrl = "https://www.amazon.fr";
  //   static String regex = "https://www.amazon.fr.*";
     
-    static String baseUrl = "http://www.lemonde.fr";
-    static String regex = "http://www.lemonde.fr.*";
+//    static String baseUrl = "http://www.lemonde.fr";
+//    static String regex = "http://www.lemonde.fr.*";
 
     public static void main(String[] args) throws InterruptedException {
 
