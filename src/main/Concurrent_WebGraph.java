@@ -88,10 +88,8 @@ public class Concurrent_WebGraph {
     }
 
     public void computePageRank() {
-        double s = 0;
         for (Page p : pages) {
             p.set_pageRank((double) p.get_nbVisits() / (double) nbVisitsTotal.get());
-            s += p.get_pageRank();
             p.set_pageRank(-1/Math.log(p.get_pageRank()));
 //            System.out.println(p.get_pageRank() + " Page for " + p.get_url());
         }
@@ -104,7 +102,6 @@ public class Concurrent_WebGraph {
             System.out.println(p.get_pageRank() + " PageRank for " + p.get_url());
         }
 
-        System.out.println("Page rank sum : " + s);
     }
 
 }
