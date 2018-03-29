@@ -92,8 +92,7 @@ public class Concurrent_WebGraph {
         for (Page p : pages) {
             p.set_pageRank((double) p.get_nbVisits() / (double) nbVisitsTotal.get());
             s += p.get_pageRank();
-            p.set_pageRank(-1/Math.log(p.get_pageRank()));
-//            System.out.println(p.get_CSRank() + " CS for " + p.get_url());
+            p.set_pageRank(-1/Math.log(p.get_pageRank())); // we return -1/log(PR), which is an increasing function, to make sure that the PR values aren't too small.
         }
 
         LinkedList<Page> pagesSorted = new LinkedList(map.values());
