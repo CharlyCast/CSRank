@@ -9,10 +9,9 @@ public class Page implements Comparable {
     private final String url;
     private String title;
     private AtomicInteger nbVisits;
-    //private HashMap<String,Page> outNeighbors;
     private ArrayList<Page> outNeighbors;
     private ReentrantLock lock;
-    private double CSRank;
+    private double pageRank;
 
     public Page(String url) {
         this.url = url;
@@ -75,17 +74,17 @@ public class Page implements Comparable {
         return url.hashCode();
     }
 
-    public double get_CSRank() {
-        return CSRank;
+    public double get_pageRank() {
+        return pageRank;
     }
 
-    public void set_CSRank(double CSRank) {
-        this.CSRank = CSRank;
+    public void set_pageRank(double pageRank) {
+        this.pageRank = pageRank;
     }
 
     @Override
     public int compareTo(Object p) {
         Page page = (Page) p;
-        return (this.get_CSRank() < page.get_CSRank()) ? -1 : 1;
+        return (this.get_pageRank() < page.get_pageRank()) ? -1 : 1;
     }
 }

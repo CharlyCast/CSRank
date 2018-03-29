@@ -13,7 +13,7 @@ public class Main {
 //    static String baseUrl="http://mythicspoiler.com/";
 //    static String regex="http.+mythic.*";
 
- //   static String baseUrl = "https://www.polytechnique.edu/";
+  //  static String baseUrl = "https://www.polytechnique.edu/";
  //   static String regex = "https://www.polytechnique.edu/.*";
 
 //    static String baseUrl="http://www.centralesupelec.fr/";
@@ -54,7 +54,7 @@ public class Main {
         }
         t = (System.nanoTime() - t) / 1000000000;
 
-        web.computeCSRank();
+        web.computePageRank();
 
         System.out.println("Explored " + web.getNbVisitsTotal() + " pages in " + t + " seconds.");
         System.out.println("Speed: " + web.getNbVisitsTotal() / t + "pages/s.");
@@ -66,7 +66,7 @@ public class Main {
         long t = System.nanoTime();
         long tExploration;
         long tWalkers;
-        long tCSComputation;
+        long tPRComputation;
 
 
         //Exploration du graphe
@@ -77,6 +77,7 @@ public class Main {
 
 
         // Détermination du PageRank.
+        System.out.println("Starting the random walks to estimate the PageRank");
         tWalkers = System.nanoTime();
         ExecutorService exec = Executors.newFixedThreadPool(nbCores);
         int n = web.getpages().size();
@@ -92,9 +93,10 @@ public class Main {
 
 
         //Computing CSRank
-        tCSComputation = System.nanoTime();
-        web.computeCSRank();
-        tCSComputation = (System.nanoTime() - tCSComputation) / 1000000000;
+        tPRComputation = System.nanoTime();
+        System.out.println("PageRanks:");
+        web.computePageRank();
+        tPRComputation = (System.nanoTime() - tPRComputation) / 1000000000;
 
         t = (System.nanoTime() - t) / 1000000000;
 
@@ -102,7 +104,7 @@ public class Main {
                 + "\nSpending:\n"
                 + tExploration/100 + " s in exploration\n"
                 + tWalkers / 100 + " s in random walks\n"
-                + tCSComputation + " s in CS Rank computation\n");
+                + tPRComputation + " s in PageRank computation\n");
         System.out.println("Exploration speed: " + web.getpages().size()*100 / tExploration + "pages/s.");
         System.out.println("Walkers speed: " + web.getNbVisitsTotal() * 100 / tWalkers + "pages/s.");
         
