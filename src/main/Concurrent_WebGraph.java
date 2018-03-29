@@ -101,7 +101,7 @@ public class Concurrent_WebGraph {
         Collections.sort(pagesSorted);
 
         for (Page p : pagesSorted){
-            System.out.println(p.get_pageRank() + " Page for " + p.get_url());
+            System.out.println(p.get_pageRank() + " PageRank for " + p.get_url());
         }
 
         System.out.println("Page rank sum : " + s);
